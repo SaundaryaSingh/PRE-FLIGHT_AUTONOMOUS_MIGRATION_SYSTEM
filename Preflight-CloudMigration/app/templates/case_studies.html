@@ -1,0 +1,185 @@
+{% extends "base.html" %}
+{% from "_macros.html" import pluralize %}
+
+{% block content %}
+<div class="page-head">
+  <div>
+    <div class="eyebrow">Migration stories · synthetic estates</div>
+    <h1>Two completed migration rehearsals you can explore</h1>
+    <p class="lede">A monoline Personal Auto mutual and a multi-line P&amp;C group. Both are dummy
+    insurers with invented code, real cloud constraints, and a completed five-agent rehearsal.
+    Start with the story, then open the run and follow Scout → Architect → Guardian → Critic → Planner.</p>
+  </div>
+  <div class="head-meta">
+    <span class="badge badge-synthetic">Synthetic profiles</span>
+    <span class="badge badge-neutral">No tenant connection</span>
+  </div>
+</div>
+
+<section class="banner banner-boundary" aria-label="Reality boundary">
+  <strong>Reality boundary.</strong> This is a synthetic rehearsal, not an actual migration:
+  no tenant connection, no code compile or deployment, and no official Cloud Assurance result.
+  Both insurers are dummy profiles with invented code, not customer data. A
+  <strong>machine-green · human gates open</strong> result is still a machine result: it is not
+  human approval, and it is not an official Cloud Assurance result.
+</section>
+
+<section class="banner banner-info" aria-label="Scribe and Planner naming">
+  <strong>Two loops, one role to know.</strong> Feature loop: <strong>Scribe</strong> seals the bundle.
+  Codebase loop: <strong>Planner</strong> compiles and seals the report — the same role, different loop.
+  Scout, Architect, Guardian, and Critic appear in both loops.
+</section>
+
+<section class="panel agent-explain" aria-labelledby="stories-help">
+  <div class="panel-head">
+    <div>
+      <div class="eyebrow">No context needed</div>
+      <h2 id="stories-help">How to explore a migration story</h2>
+    </div>
+    <span class="badge badge-neutral">start here</span>
+  </div>
+  <div class="explain-grid">
+    <div>
+      <h3>1. Read the insurer</h3>
+      <p>Each card names a dummy insurer, its lines of business, product models, custom features,
+      and the constraints that make the migration hard.</p>
+    </div>
+    <div>
+      <h3>2. Read the outcome</h3>
+      <p>The outcome strip shows what the five agents found: blockers, patches, loop iterations,
+      and the human gates that remain even when the machine checks are green. Guardian opens the
+      human review gates; Critic runs machine checks. Machine-green is not human approval.</p>
+    </div>
+    <div>
+      <h3>3. Open the run</h3>
+      <p>The codebase lab shows every finding, diff, deterministic check, human gate, SARIF result,
+      and the upgrade scenario. Nothing is deployed; every patch is pending.</p>
+    </div>
+  </div>
+  <details class="glossary-details">
+    <summary>Glossary for a first-time reader</summary>
+    <dl class="glossary-grid">
+      <div><dt>Gosu</dt><dd>Guidewire's JVM language for product and business logic.</dd></div>
+      <div><dt>APD</dt><dd>Advanced Product Designer, Guidewire's cloud product model.</dd></div>
+      <div><dt>Gosu Query / application API</dt><dd>The supported synchronous cloud read path for in-app code, replacing direct SQL/JDBC.</dd></div>
+      <div><dt>Cloud Data Access (CDA)</dt><dd>A streaming/export service to S3 Parquet for analytics and export — not the synchronous in-app read path.</dd></div>
+      <div><dt>App Events</dt><dd>The cloud event mechanism that replaces legacy JMS/MQ transports.</dd></div>
+      <div><dt>SARIF</dt><dd>A standard static-analysis report format for developer pipelines.</dd></div>
+      <div><dt>Human gate</dt><dd>A decision that stays with an owner even after a green machine verdict.</dd></div>
+    </dl>
+  </details>
+</section>
+
+<div class="case-grid">
+  {% for profile in profiles %}
+  <article class="panel case-card">
+    <div class="case-card-head">
+      <div>
+        <div class="eyebrow">{{ profile.segment }}</div>
+        <h2>{{ profile.name }}</h2>
+      </div>
+      <span class="badge badge-neutral">{{ profile.cloud_program }}</span>
+    </div>
+    <p class="case-tagline">{{ profile.tagline }}</p>
+
+    {% set outcome = summaries.get(profile.case_id) %}
+    {% if outcome %}
+    <div class="case-outcome" aria-label="Synthetic migration rehearsal outcome">
+      <div class="outcome-stat"><span class="outcome-value">{{ outcome.findings }}</span><span class="outcome-label">blockers<span class="visually-hidden"> found</span></span></div>
+      <div class="outcome-stat"><span class="outcome-value">{{ outcome.patches }}</span><span class="outcome-label">patches<span class="visually-hidden"> drafted</span></span></div>
+      <div class="outcome-stat"><span class="outcome-value">{{ outcome.iterations }}</span><span class="outcome-label"><span class="visually-hidden">loop </span>iterations</span></div>
+      <div class="outcome-stat"><span class="outcome-value">{{ outcome.gates }}</span><span class="outcome-label"><span class="visually-hidden">human </span>gates</span></div>
+      <div class="outcome-status">
+        <span class="pill pill-status {{ 'status-succeeded' if outcome.green else 'status-failed' }}">{{ 'machine-green' if outcome.green else 'blocked' }}</span>
+        <span class="outcome-label">{{ 'machine checks passed · human gates open · 0 approvals' if outcome.green else 'human review required' }}</span>
+      </div>
+    </div>
+    {% if outcome.green %}
+    <p class="case-caveat"><strong>Not approval.</strong> A machine-green · human gates open result
+    means the deterministic machine checks passed while the listed human gates remain open. It is
+    not human approval and not an official Cloud Assurance result.</p>
+    {% else %}
+    <p class="case-caveat"><strong>Not approval.</strong> A blocked result means the machine checks did
+    not pass; a human still owns the next decision. It is not an official Cloud Assurance result.</p>
+    {% endif %}
+    {% endif %}
+
+    <dl class="case-facts">
+      <div><dt>Policies</dt><dd>{{ profile.footprint.policies }}</dd></div>
+      <div><dt>States</dt><dd>{{ profile.footprint.states }}</dd></div>
+      <div><dt>Custom Gosu</dt><dd>{{ profile.footprint.custom_gosu_files }}</dd></div>
+      <div><dt>Integrations</dt><dd>{{ profile.footprint.integrations }}</dd></div>
+    </dl>
+
+    <h3>Lines of business</h3>
+    <div class="lob-list">
+      {% for lob in profile.lobs %}
+      <div class="lob-card">
+        <strong>{{ lob.name }}</strong>
+        <span class="muted">{{ lob.product_model }} · {{ lob.editions|join(' / ') }}</span>
+        <div class="lob-features">{{ lob.custom_features|join(' · ') }}</div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <h3>Custom feature slices</h3>
+    <ul class="case-feature-list">
+      {% for feature in profile.custom_features %}
+      <li>
+        <div class="case-feature-title">{{ feature.name }} <span class="muted">· {{ feature.owner }}</span></div>
+        <div class="muted">{{ feature.description }}</div>
+        <div class="case-rule-row">
+          {% for rule in feature.anti_patterns %}<code>{{ rule }}</code>{% endfor %}
+          <span class="muted">→ {{ feature.cloud_target }}</span>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
+
+    <h3>Migration constraints</h3>
+    <ul class="constraint-list">
+      {% for constraint in profile.constraints %}<li>{{ constraint }}</li>{% endfor %}
+    </ul>
+
+    <div class="case-thesis">
+      <strong>Why this case matters.</strong> {{ profile.case_thesis }}
+    </div>
+
+    <div class="button-row">
+      <a class="btn btn-primary" href="/codebase?case={{ profile.case_id }}">Explore the five-agent run</a>
+      <a class="btn" href="/api/codebase/cases/{{ profile.case_id }}">Inspect JSON</a>
+    </div>
+  </article>
+  {% endfor %}
+</div>
+
+<section class="panel">
+  <div class="panel-head">
+    <h2>What the case studies prove</h2>
+    <span class="muted">evidence-bound, not a certification</span>
+  </div>
+  <div class="case-proof-grid">
+    <div>
+      <h3>Code-level blockers are identifiable</h3>
+      <p class="muted">Direct JDBC, dynamic SQL, legacy message transports, servlets, removed Java APIs,
+      static tenant state, weak crypto, hard-coded secrets, APD naming, and DB-coupled GUnit tests
+      produce line-located findings with stable fingerprints.</p>
+    </div>
+    <div>
+      <h3>Refactors are reviewable artifacts</h3>
+      <p class="muted">The Architect emits target drafts, cloud configuration, unified diffs, and
+      semantic-review notes. Nothing is deployed and every patch stays pending.</p>
+    </div>
+    <div>
+      <h3>Gates survive platform movement</h3>
+      <p class="muted">A mid-migration release upgrade invalidates the previous green signal,
+      identifies affected patches, and offers revalidate, rollback, or defer choices.</p>
+    </div>
+    <div>
+      <h3>Findings reach developer pipelines</h3>
+      <p class="muted">SARIF 2.1.0 carries rule metadata, line locations, evidence fingerprints,
+      remediation, and claim strength without embedding source excerpts or secrets.</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

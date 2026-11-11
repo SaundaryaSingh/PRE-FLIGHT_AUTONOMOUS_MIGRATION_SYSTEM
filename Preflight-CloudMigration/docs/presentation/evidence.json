@@ -1,0 +1,1941 @@
+{
+  "schema_version": "1.0",
+  "deck": {
+    "path": "docs/presentation/index.html",
+    "slides": 23,
+    "aspect_ratio": "16:9",
+    "offline": true,
+    "external_requests": 0,
+    "print_pages": 23,
+    "pdf": "docs/presentation/PreFlight-deck.pdf",
+    "validation": "Playwright at 1920x1080, 1440x900, 1280x720, 1024x768, 390x844: 23 slides; 0 layout/overflow failures at every viewport; 0 console errors; 0 external requests; 10.5px CSS font floor (>=10.08px effective); 390 footer shows the full boundary including Official Cloud Assurance: not run; tagged PDF, 23 pages at 1200 x 675.12 pts, boundary line on every page",
+    "pdf_pages": 23,
+    "pdf_page_size": "1200 x 675.12 pts",
+    "pdf_sha256": "a1ae9c5739c62f4fcb52ed7c23246e07fcdb20cf1311548d3d8a656ce53593b3",
+    "pdf_bytes": 1234120,
+    "slides_note": "13–19 are the new agent/codebase block; the former 13–16 are now 20–23.",
+    "validation_file": "docs/presentation/assets/deck-23/validation.json",
+    "generated_at": "2026-11-11T14:40:24Z"
+  },
+  "generated_at": "2026-11-11T14:54:42+00:00",
+  "run": {
+    "run_id": "R-DEMO-001",
+    "fixture": "demo-slice-300",
+    "snapshot": "v1.0.0",
+    "date": "2026-11-08",
+    "files": 300,
+    "features": 8,
+    "evidence": 126,
+    "findings": 24,
+    "rules": 8,
+    "mappings": 12,
+    "changes": 5,
+    "assumptions": 3,
+    "excluded": {
+      "total": 4,
+      "binary": 2,
+      "corrupt": 1,
+      "unsupported": 1
+    },
+    "audit_verified": true,
+    "snapshot_hash": "bd4a8a4b338af3698c5fa2c6f4232456e3810a337b79e19e1bd07e36a9c46c6f",
+    "official_cloud_assurance": "not run",
+    "note": "packet/packet_json/audit-head values are capture-time; reviewer decisions or a packet refresh change them. Seed: 9 events / 3 assumptions. After Accept M-01 + Reject M-12: 11 events / 4 assumptions / A-DEC-04. The stable fixture snapshot hash is bd4a8a4b338a.",
+    "assumptions_after_actions": 4,
+    "mappings_pending_seed": 12,
+    "audit_events_seed": 9,
+    "audit_events_after_actions": 11,
+    "packet_hash_predecision": "e44218d0a00c",
+    "audit_head_predecision": "75b4b39ddec2ad301f3a2dd8b4544f84a4e6f31068e56a9ff0f0d111944af81d",
+    "packet_hash_after_actions": "e44218d0a00c2b726e4e001be8ac3b28024ca11edf8bbfdcd83d2f84468e2e58",
+    "audit_head_after_actions": "ce42ca81d6b0f8ef0482480eaa9e2a88e7e6435de263dc3e851d98f090cc905f",
+    "packet_hash_scope": "SHA-256 over the complete rendered packet HTML after normalizing the packet hash fields to a fixed placeholder. packet_sha256 and hashes.packet_html are the same value. The canonical packet JSON is covered separately by hashes.packet_json (excluding packet_sha256 and the packet/packet_html/packet_json hash entries), and hashes.findings, hashes.mappings, hashes.evidence and the other content digests bind the artifact payloads to the packet.",
+    "snapshot_short": "bd4a8a4b338a",
+    "packet_hash_seed": "e44218d0a00c",
+    "packet_cover_snapshot": "bd4a8a4b338a",
+    "audit_events_predecision": 9,
+    "state_labels": {
+      "seeded_review": "3 assumptions, 9 audit events, 11 gates; used by the migrator run and slides 13/15",
+      "post_decision_packet": "4 assumptions (A-DEC-04), 11 audit events; used by slides 8/12"
+    }
+  },
+  "metrics": [
+    {
+      "id": "M1",
+      "label": "Feature discovery recall",
+      "numerator": 8,
+      "denominator": 8,
+      "value": 1.0,
+      "ci95": [
+        0.676,
+        1.0
+      ],
+      "note": "in-sample synthetic"
+    },
+    {
+      "id": "M2",
+      "label": "Feature discovery precision",
+      "numerator": 8,
+      "denominator": 8,
+      "value": 1.0,
+      "ci95": [
+        0.676,
+        1.0
+      ],
+      "note": "in-sample synthetic"
+    },
+    {
+      "id": "M3",
+      "label": "Evidence-link support precision (all links)",
+      "numerator": 101,
+      "denominator": 101,
+      "value": 1.0,
+      "ci95": [
+        0.963,
+        1.0
+      ],
+      "sample": {
+        "numerator": 30,
+        "denominator": 30
+      },
+      "note": "excerpt support, not semantic entailment"
+    },
+    {
+      "id": "M4",
+      "label": "Disposition correctness",
+      "numerator": 12,
+      "denominator": 12,
+      "value": 1.0,
+      "ci95": [
+        0.758,
+        1.0
+      ],
+      "note": "source+target+disposition; extras penalised"
+    },
+    {
+      "id": "M5",
+      "label": "Estimate-moving issue recall",
+      "numerator": 6,
+      "denominator": 6,
+      "value": 1.0,
+      "ci95": [
+        0.61,
+        1.0
+      ],
+      "allowance": {
+        "numerator": 6,
+        "denominator": 8
+      },
+      "note": "fixed two-decoy top-8 allowance, not a learned ranking"
+    },
+    {
+      "id": "M6",
+      "label": "Finding micro-F1",
+      "numerator": 48,
+      "denominator": 48,
+      "value": 1.0,
+      "ci95": null,
+      "tp": 24,
+      "fp": 0,
+      "fn": 0,
+      "note": "path-level matching; no interval at this n; bootstrap deferred"
+    }
+  ],
+  "supporting": {
+    "hard_negatives_silent": {
+      "numerator": 24,
+      "denominator": 24,
+      "note": "guard count; not a seventh metric"
+    },
+    "holdout": {
+      "numerator": 4,
+      "denominator": 4,
+      "ci95": [
+        0.51,
+        1.0
+      ],
+      "imported": false,
+      "note": "four-feature naming-shift fixture"
+    },
+    "tests": 481,
+    "freeze_hashes": {
+      "numerator": 18,
+      "denominator": 18,
+      "note": "3 fixture trees + reference + annotation guide + annotation concordance + rule pack + pre-registration + claims ledger + 9 gold files"
+    },
+    "raw_secret_values": 0
+  },
+  "slides": [
+    {
+      "number": 1,
+      "id": "slide-1",
+      "section": "Title",
+      "title": "Evidence before the estimate",
+      "key_points": [
+        "Offline, synthetic, independent",
+        "300 files, 8 features, 126 evidence, 24 findings, 12 dispositions",
+        "9 seed audit events; 11 after Accept M-01 + Reject M-12",
+        "Not affiliated with Guidewire; official Cloud Assurance not run"
+      ],
+      "sources": []
+    },
+    {
+      "number": 2,
+      "id": "slide-2",
+      "section": "The problem",
+      "title": "A migration estimate is a promise. The inventory is the proof.",
+      "key_points": [
+        "Four questions: what exists, which feature, what is disposed, what is unknown/owner",
+        "Softened scope wording: files that were never classified",
+        "APD limits type names to 24 characters; endpoint generation then fails to compile; nameOverride is the documented correction",
+        "Other APD short-name/label limits exist (for example 22/30 characters)",
+        "JDBC/commits/servlets/hidden packages often surface in CUE or a build gate; earlier discovery limits estimate movement",
+        "6–8 weeks is a vendor APD-conversion estimate, not a full migration estimate",
+        "SBT lines cannot convert: readiness scope/estimate risk",
+        "Incomplete handover (premise, not measured)"
+      ],
+      "sources": [
+        "S-01",
+        "S-02",
+        "S-03",
+        "S-06"
+      ]
+    },
+    {
+      "number": 3,
+      "id": "slide-3",
+      "section": "The gap",
+      "title": "No public tool we found combines PCF/entity/typelist/template/Gosu evidence into one disposition + assumption packet",
+      "key_points": [
+        "Explicitly acknowledged: Guidewire CUE, Cloud Assurance Services, Lighthouse, SurePath, Developer Assistants, GoQu, CAST/ADDI (portfolio and code discovery), Syntra ETL (data migration/extraction), SI assessments",
+        "Gap = cross-artefact feature evidence + disposition ledger + assumption register + packet",
+        "Positioning, not an independent product evaluation"
+      ],
+      "sources": [
+        "S-05",
+        "S-06",
+        "S-07",
+        "S-19",
+        "S-20",
+        "S-21",
+        "S-22",
+        "S-23",
+        "S-24"
+      ]
+    },
+    {
+      "number": 4,
+      "id": "slide-4",
+      "section": "Solution",
+      "title": "One pipeline. Nine stages. Every step leaves a trace.",
+      "key_points": [
+        "Snapshot → intake/hash → parse → discover → review → reconstruct → compare → evaluate → packet",
+        "Read-only; unsupported listed; every claim evidence; every change pending; no LLM/external calls",
+        "300 → 126 evidence → 24 findings → 12 dispositions → 1 packet"
+      ],
+      "sources": [
+        "S-15"
+      ]
+    },
+    {
+      "number": 5,
+      "id": "slide-5",
+      "section": "Evidence model",
+      "title": "A claim is only as strong as its locator, its label, and its open question.",
+      "key_points": [
+        "Claim fields: path, locator, excerpt, excerpt_sha, method, confidence",
+        "Claim strength: verified-id, verified-policy, verified-doc, secondary, heuristic",
+        "Assumption fields: ID, statement, owner, impact range, question, status",
+        "Packet hash covers rendered HTML; packet_json covers canonical JSON; content digests bind findings/mappings/evidence; audit head covers the chain",
+        "Tamper-evident, not non-repudiation"
+      ],
+      "sources": [
+        "S-01",
+        "S-05"
+      ]
+    },
+    {
+      "number": 6,
+      "id": "slide-6",
+      "section": "Demo · Workbench",
+      "title": "One feature, traced across six artefact families.",
+      "key_points": [
+        "31 evidence / 12 files / 4 artefact types / 2 tests / 11 PA-VEH-01 references",
+        "37 vs 24 APD type-name limit; long type is in 2 files and is a PA-VEH-02 dependency, not one of the 11 references",
+        "3 estate-wide gaps",
+        "18-node spine; click node → EV-0001",
+        "Fixture realism: 300 files include generated filler; PCF/product model/Gosu are synthetic sketches, not production Guidewire formats"
+      ],
+      "sources": [
+        "S-01"
+      ]
+    },
+    {
+      "number": 7,
+      "id": "slide-7",
+      "section": "Demo · Manifest",
+      "title": "No silent omission. Four files are excluded — and named.",
+      "key_points": [
+        "300 files hashed",
+        "4 excluded: 2 binary, 1 corrupt, 1 unsupported",
+        "Source hash unchanged bd4a8a4b338a before/after; visible value matches the live immutability banner",
+        "Excluded files stay in the packet",
+        "Fixture realism: generated filler and synthetic parser-boundary examples; not a production Guidewire export"
+      ],
+      "sources": []
+    },
+    {
+      "number": 8,
+      "id": "slide-8",
+      "section": "Demo · Reconstruction",
+      "title": "A decision queue, not a rename script.",
+      "key_points": [
+        "Post-decision state: 4 assumptions, 11 audit events",
+        "12 dispositions / 5 target changes (C-01…C-05)",
+        "Four exact documented examples + one documented 24-char mechanism applied to a synthetic long type + 6 API conventions + 1 typelist convention",
+        "Accept M-01; reject M-12 (R-TYP-01) → A-DEC-04",
+        "_gen writes: 0; draft local/non-deployable",
+        "Scope: Cloud Retrofit without APD App; field-level nameOverride only on that path; _ext is a local JSON contract, not official Guidewire schema/mapping/updater syntax"
+      ],
+      "sources": [
+        "S-04",
+        "S-16",
+        "S-17"
+      ]
+    },
+    {
+      "number": 9,
+      "id": "slide-9",
+      "section": "Demo · Findings",
+      "title": "Precision is a feature. Restraint is the interface.",
+      "key_points": [
+        "24 findings / 8 rules; F-001 SBT readiness flag separate; F-002…F-025 advisory findings",
+        "Clean crop below the app’s table-scroll hint: 8 of 24 rows plus the selected F-002 detail; full list in the packet",
+        "Claim strength: 12 verified-id, 3 verified-policy, 3 verified-doc, 3 secondary, 3 heuristic",
+        "Two standard families: Cloud Standards IS-TLS-1238 / IS-TLS-1191; Gosu Secure Coding SEC00-G / ERR00-G",
+        "Precision guards: 8 rules × 3 hard negatives; Query.make supported; 24/24 silent",
+        "No Cloud Assurance pass/fail or violation claim"
+      ],
+      "sources": [
+        "S-09",
+        "S-10",
+        "S-11",
+        "S-12"
+      ]
+    },
+    {
+      "number": 10,
+      "id": "slide-10",
+      "section": "Demo · Assistant",
+      "title": "It would rather refuse than invent a source.",
+      "key_points": [
+        "Territory refusal names missing evidence",
+        "Motorcycle_Ext cites EV-0023, VehicleType.ttx, xpath, line 3",
+        "Retrieval-only, model off",
+        "Citations resolve to evidence records"
+      ],
+      "sources": []
+    },
+    {
+      "number": 11,
+      "id": "slide-11",
+      "section": "Demo · Evaluation",
+      "title": "Perfect scores measure the instrument. The estate is still unproven.",
+      "key_points": [
+        "Six headline metrics: M1 8/8, M2 8/8, M3 101/101 + 30/30, M4 12/12, M5 6/6 with 6/8 allowance, M6 F1 1.00 (24 TP / 0 FP / 0 FN)",
+        "24/24 hard negatives silent = separate guard count, not a seventh metric",
+        "Holdout 4/4, 51.0–100.0, not imported",
+        "In-sample; no human IAA; reference internally authored; support ≠ entailment"
+      ],
+      "sources": []
+    },
+    {
+      "number": 12,
+      "id": "slide-12",
+      "section": "Demo · Packet",
+      "title": "The review artifact is the product.",
+      "key_points": [
+        "6 sections",
+        "126 evidence items",
+        "Post-decision: 11 audit events / 4 assumptions / A-DEC-04",
+        "Pre-decision: 9 events / 3 assumptions; label pre-decision captures",
+        "Packet, packet_json, and audit-head values are read live; they change with reviewer actions and packet refresh",
+        "Packet hash covers rendered HTML; packet_json covers canonical JSON; content digests bind findings/mappings/evidence; audit head covers the chain",
+        "Two-step verification: verify-packet checks the packet and content digests; verify-audit checks the audit chain only, not the packet",
+        "Crop shows the assumption-register summary (A-01); live register has four rows including A-DEC-04",
+        "Downloadable HTML; local, not certification"
+      ],
+      "sources": []
+    },
+    {
+      "number": 13,
+      "id": "slide-13",
+      "section": "Demo · Migrator",
+      "title": "Five agents. One handoff chain. No authority to deploy.",
+      "key_points": [
+        "Seeded run: 3 assumption gates + 8 rule groups = 11 gates; post-decision packet on slides 8/12 has 4 assumptions",
+        "Straight handoff chain: Scout → Architect → Guardian → Critic → Scribe; the codebase lab is the cyclic loop",
+        "Same fifth role, different loop: Scribe seals the feature packet; Planner assembles and seals the codebase plan; neither approves or deploys",
+        "R-DEMO-001: 300 files, 101 evidence records, 31 links on PA-VEH-01, 24 findings, 12 dispositions",
+        "5 work packages, 5 target files, 11 gates (3 assumptions + 8 rule groups, 6 high), 7/7 checks, 8 listed files",
+        "completed_with_gates; no deployment, no tenant contact, no Gosu/Java compile against Guidewire, no official Cloud Assurance",
+        "Glossary: Gosu, APD, Scribe, Planner",
+        "Optional live reasoning run R-20261111-052740-b001: 3 citation-checked calls, 0 ungrounded claims, Guardian 0 model calls; deterministic 7/7 unchanged",
+        "Reality boundary callout: synthetic rehearsal, not an actual migration"
+      ],
+      "sources": [
+        "S-25",
+        "S-26"
+      ]
+    },
+    {
+      "number": 14,
+      "id": "slide-14",
+      "section": "Demo · Migrator",
+      "title": "Scout hands over 31 links and 12 dispositions. Architect writes five files.",
+      "key_points": [
+        "Scout: 300 files, 101 evidence records, 31 links on PA-VEH-01, 24 findings, 12 dispositions, snapshot bd4a8a4b338a",
+        "Five work packages and bytes: schema 945 B, mapping 3,046 B, updater 402 B, codegen 520 B, API 78 B",
+        "WP-01 PAVehicle→PersonalVehicle; WP-02 PAVehicle.Year→ModelYear; WP-03 PADriver→VehicleDriver; WP-04 PALine→PersonalAutoLine; WP-05 long APD type",
+        "WP-05 carries G-03 at handoff; all five packages draft_ready, mapped_transformed, and pending",
+        "_gen targets 0, duplicate targets 0, auto-approved changes 0",
+        "Five target files are not five deployment units; WP-02 mapping carries all 12 dispositions"
+      ],
+      "sources": [
+        "S-04",
+        "S-17"
+      ]
+    },
+    {
+      "number": 15,
+      "id": "slide-15",
+      "section": "Demo · Migrator",
+      "title": "Guardian turns 24 findings and 3 assumptions into 11 human gates.",
+      "key_points": [
+        "Seeded state: 3 assumptions + 8 rule groups = 11 gates; slides 8/12 show the separate 4-assumption post-decision packet",
+        "24 findings → 8 rule groups × 3 = 24; 3 assumptions; 11 human gates; 6 high impact; 0 resolved",
+        "Assumption gates G-01, G-02, G-03 are unassigned; G-01 and G-03 high, G-02 medium",
+        "Rule groups G-04…G-11 each carry 3 findings; high: NAM, PKG, SEC, SQL; medium: EXC, GUNIT, SRV, TX",
+        "Gate-level check: gates live at assumption/rule-group level, not package level; slide 14 shows the only package-level gate, G-03",
+        "Guardian deliberately does not receive Scout’s narrative, Critic’s verdict, or model-generated text",
+        "A gate is a named human decision with an owner; open is a status, not a scoring failure"
+      ],
+      "sources": [
+        "S-04",
+        "S-05"
+      ]
+    },
+    {
+      "number": 16,
+      "id": "slide-16",
+      "section": "Demo · Migrator",
+      "title": "Critic passes 7/7. Scribe seals 8 listed files. Neither approves.",
+      "key_points": [
+        "Critic 7/7 package-integrity checks: packages exist; 5/5 generated; no _gen; 5 unique targets; 5 files parse; 5/5 evidence-linked; 0 auto-approved",
+        "Scribe seals 8 listed files = 5 target drafts + plan + report + 12-event log; bundle-manifest.json is the wrapper",
+        "Seal hash prefixes: plan 3c307f75205c, report 8770963bd2fd, bundle 6c5b7f5a5aec, agent log 5c28ba80c3f75eb6",
+        "Review packet audit: 9 seed events, 11 after the two runbook decisions; migrator log: 12 events, separate hash chain",
+        "Sealed means tamper-evident, not approved; completed_with_gates, 11 gates open, 0 auto-approved"
+      ],
+      "sources": [
+        "S-25"
+      ]
+    },
+    {
+      "number": 17,
+      "id": "slide-17",
+      "section": "Demo · Codebase lab",
+      "title": "Two synthetic insurers, two migration shapes, one bounded crew.",
+      "key_points": [
+        "Cascade: 18 findings (10 error / 8 warning), 22 patches, 2 iterations, 10 human gates; 13 rules fired",
+        "Harbor: 20 findings (11 error / 9 warning), 21 patches, 2 iterations, 11 human gates; 15 rules fired",
+        "Illustrative synthetic footprints: Cascade 420,000 policies / 38 PCF screens / 64 custom Gosu files / 7 integrations; Harbor 2.6M / 214 / 1,180 / 42",
+        "Both green_with_human_gates; structural 100/100; human-gate-adjusted 74 (Cascade) and 71 (Harbor)",
+        "Qusar 2026.08 snapshots → simulated GWCP 2027.04 target; same 16-family rule pack; SARIF 2.1.0; every patch pending",
+        "Same fifth role, different loop: Scribe seals the feature packet; Planner assembles and seals the codebase plan",
+        "Harbor APD is type-level APD naming preparation only, not full APD conversion or field mapping",
+        "Clean outcome-strip crop excludes the app’s program-label row; app labels blockers found / patches drafted map to findings / patches"
+      ],
+      "sources": [
+        "S-04",
+        "S-05",
+        "S-27"
+      ]
+    },
+    {
+      "number": 18,
+      "id": "slide-18",
+      "section": "Demo · Codebase lab",
+      "title": "The code lab closes its loop. Cascade 10 and Harbor 11 human gates stay open.",
+      "key_points": [
+        "16 code rule families; Cascade 18 findings / 22 patches / 10 gates / 13 SARIF rules; Harbor 20 / 21 / 11 / 15",
+        "SARIF 2.1.0, tool driver PreFlight CodeGuard; official_cloud_assurance false; synthetic true; no source excerpts or secret values",
+        "SARIF is the machine-readable static-analysis output; advisory input to CI, not a compliance verdict",
+        "Before: JDBC/DriverManager + concatenated SQL in VehicleRatingQuery.gs; after: corrected VehicleRatingQueryService draft using Query.make(...).select()",
+        "Generator naming artifact: app appends QueryService to the source class, producing VehicleRatingQueryQueryService; corrected name shown and reported to the app team",
+        "Planner assembles and seals the codebase plan; nothing is compiled; compile validation is future work; every patch pending",
+        "The draft does not prove compile/runtime equivalence, entity/field mapping, or tenant compatibility",
+        "Glossary: Gosu, APD, CDA, App Events, SARIF"
+      ],
+      "sources": [
+        "S-13",
+        "S-25"
+      ]
+    },
+    {
+      "number": 19,
+      "id": "slide-19",
+      "section": "Demo · Codebase lab",
+      "title": "A green signal is release-bound, not permanent.",
+      "key_points": [
+        "Five simulated GWCP 2026.10 → 2027.04 scenarios; not published 2027.04 release notes",
+        "APD 24 → 20 characters is a simulation; generation 1 → 2; prior green signal invalidated",
+        "Per-scenario exposure, not additive: Cascade 30 patch-exposures across 22 patches; Harbor 28 across 21; one patch can appear in more than one scenario",
+        "Exposure counts (Cascade/Harbor): APD 2/2, App Events v2 3/3, Gateway mTLS 7/6, removed Gosu API 14/14, Cloud API version 4/3",
+        "Resume options: revalidate → resume_requested; rollback → rolled_back_to_checkpoint; defer → upgrade_deferred; all clear green and keep human approval",
+        "APD regenerated at 20 characters → compatible; 24-character bundle → revalidation_required",
+        "Named unexpected states: source changed, corrupt file, duplicate target, analyzer crash, empty snapshot; counts are exposure, not effort"
+      ],
+      "sources": [
+        "S-26",
+        "S-27"
+      ]
+    },
+    {
+      "number": 20,
+      "id": "slide-20",
+      "section": "Engineering rigor",
+      "title": "The demo is the surface. The hardening is the work.",
+      "key_points": [
+        "481 tests passed",
+        "1 Playwright golden path",
+        "18/18 recorded freeze hashes recompute",
+        "0 raw secret values in artifacts",
+        "9 seed audit events verified; 11 after the two runbook actions",
+        "12/12 concurrent accepts persist; forged evidence 0/48; packet 126 items"
+      ],
+      "sources": []
+    },
+    {
+      "number": 21,
+      "id": "slide-21",
+      "section": "Novelty & prior art",
+      "title": "The algorithms are not new. The integration and the evidence discipline are the contribution.",
+      "key_points": [
+        "Feature location, traceability, architecture conformance, GSN are established",
+        "Reversa 2026 is closest prior art",
+        "Integration + domain evidence model is the contribution",
+        "No first/only claim"
+      ],
+      "sources": []
+    },
+    {
+      "number": 22,
+      "id": "slide-22",
+      "section": "Viability",
+      "title": "The wedge is real. The evidence is not yet sufficient to call it a product.",
+      "key_points": [
+        "Synthetic in-sample; internally authored target; no human IAA",
+        "No real estate; CUE is the official Cloud Upgrade Estimate; Cloud Assurance Services/Lighthouse own the official gate and migration lab",
+        "Vendor-independent wedge, not independently validated",
+        "Roadmap: real estate, second LOB, blind annotation, line-level, performance, import/export, compile validation"
+      ],
+      "sources": [
+        "S-06",
+        "S-21",
+        "S-22",
+        "S-23"
+      ]
+    },
+    {
+      "number": 23,
+      "id": "slide-23",
+      "section": "Close",
+      "title": "Every claim has evidence. Every unknown has a name. Every change waits for a human.",
+      "key_points": [
+        "Ask: one authorised estate, two blind SME annotators, hard feedback",
+        "Saundarya Singh · independent research prototype · github.com/SaundaryaSingh/Preflight-CloudMigration · MIT",
+        "Disclaimer: independent, synthetic, not affiliated, Cloud Assurance not run"
+      ],
+      "sources": []
+    }
+  ],
+  "sources": [
+    {
+      "id": "S-01",
+      "title": "Guidewire Cloud API — Correcting compile errors",
+      "url": "https://docs.guidewire.com/cloud/pc/202603/cloudapica/cloudAPI/topics/508-LOBEndpoints/01-generating-LOB-endpoints/c_correcting_compile_errors.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "APD 24-character type-name limit; nameOverride correction",
+      "gated": false
+    },
+    {
+      "id": "S-02",
+      "title": "Guidewire blog — Convert existing PolicyCenter products to APD",
+      "url": "https://www.guidewire.com/resources/blog/developers/accelerate-your-cloud-transformation---convert-existing-policycenter-products-to-apd",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "6–8 week vendor estimate",
+      "gated": false,
+      "claim_type": "vendor claim"
+    },
+    {
+      "id": "S-03",
+      "title": "Guidewire Cloud release highlights (Olos)",
+      "url": "https://docs.guidewire.com/cloud/olos/whatsnew/topics/gwcp-release_highlights.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "SBT lines cannot be converted to APD-managed lines at this time; readiness scope/estimate risk",
+      "gated": false
+    },
+    {
+      "id": "S-04",
+      "title": "Guidewire Cloud API — LOB endpoints for non-APD-native products",
+      "url": "https://docs.guidewire.com/cloud/pc/202603/cloudapica/cloudAPI/topics/508-LOBEndpoints/01-generating-LOB-endpoints/c_generating_lob_specific_endpoints_for_non_apd_native_products.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "Cloud Retrofit scope boundary; not the recommended process",
+      "gated": false
+    },
+    {
+      "id": "S-05",
+      "title": "Guidewire Cloud Assurance — automated cloud assurance and code compliance",
+      "url": "https://docs.guidewire.com/cloud/gcc-guide/insurer-developer/latest/automated-cloud-assurance",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "standards gate process; threshold not public",
+      "gated": false,
+      "gated_detail": "numeric threshold and full corpus"
+    },
+    {
+      "id": "S-06",
+      "title": "Guidewire developer blog — lessons from Guidewire Cloud migrations",
+      "url": "https://www.guidewire.com/resources/blog/developers/lessons-from-guidewire-cloud-migrations-de-risking-the-move-to-saas-via-guidewire-cloud",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "JDBC, explicit commits, servlets, hidden packages; CUE report and Lighthouse remediation",
+      "gated": false,
+      "claim_type": "secondary"
+    },
+    {
+      "id": "S-07",
+      "title": "SonarQube Server — Gosu",
+      "url": "https://docs.sonarsource.com/sonarqube-server/2026.4/analyzing-source-code/languages/gosu",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "generic Gosu lint positioning",
+      "gated": false
+    },
+    {
+      "id": "S-08",
+      "title": "Gosu grammar",
+      "url": "https://gosu-lang.github.io/grammar.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "Gosu scanner syntax assumptions",
+      "gated": false
+    },
+    {
+      "id": "S-09",
+      "title": "Guidewire Gosu secure coding — SEC00-G",
+      "url": "https://docs.guidewire.com/security/gosu-secure-coding-guidelines/SEC00-G",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "Do Not Hardcode Secrets",
+      "gated": true,
+      "gated_detail": "body may require login; public ID/title only"
+    },
+    {
+      "id": "S-10",
+      "title": "Guidewire Gosu secure coding — ERR00-G",
+      "url": "https://docs.guidewire.com/security/gosu-secure-coding-guidelines/ERR00-G",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "Do Not Suppress Exceptions",
+      "gated": true,
+      "gated_detail": "body may require login; public ID/title only"
+    },
+    {
+      "id": "S-11",
+      "title": "Guidewire Gosu secure coding — INJ00-G",
+      "url": "https://docs.guidewire.com/security/gosu-secure-coding-guidelines/INJ00-G",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "JDBC not supported on Guidewire Cloud",
+      "gated": true,
+      "gated_detail": "body may require login"
+    },
+    {
+      "id": "S-12",
+      "title": "Guidewire hardening guidance for InsuranceSuite",
+      "url": "https://docs.guidewire.com/security/hardening-guidance-for-insurancesuite/application-and-development-security",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "Cloud Standard IDs/titles IS-TLS-1238 and IS-TLS-1191",
+      "gated": true,
+      "gated_detail": "rule bodies may require login"
+    },
+    {
+      "id": "S-13",
+      "title": "Guidewire hardening guidance for InsuranceSuite — custom servlet policy",
+      "url": "https://docs.guidewire.com/security/hardening-guidance-for-insurancesuite/application-and-development-security",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "verified-policy label on PF-GW-SRV-001",
+      "gated": true,
+      "gated_detail": "rule bodies may require login"
+    },
+    {
+      "id": "S-14",
+      "title": "Guidewire APD — labels / short-name limits",
+      "url": "https://docs.guidewire.com/cloud/apd/niseko/create/topics/c_xmind-labels.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "APD short-name/label context (22/30 characters); 24-character limit is for type names",
+      "gated": false
+    },
+    {
+      "id": "S-15",
+      "title": "Guidewire Cloud Platform releases",
+      "url": "https://www.guidewire.com/products/technology/guidewire-cloud-platform-releases",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "release context (Qusar 2026.08)",
+      "gated": false
+    },
+    {
+      "id": "S-16",
+      "title": "Guidewire Cloud API — files that define LOB-specific endpoints",
+      "url": "https://docs.guidewire.com/cloud/pc/202603/cloudapica/cloudAPI/topics/508-LOBEndpoints/01-generating-LOB-endpoints/c_files_that_define_lob_specific_endpoints.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "_ext paths; _gen read-only invariant",
+      "gated": false
+    },
+    {
+      "id": "S-17",
+      "title": "Guidewire Cloud API — codegen config file syntax",
+      "url": "https://docs.guidewire.com/cloud/pc/202603/cloudapica/cloudAPI/topics/508-LOBEndpoints/03-codegen-config-files/c_codegen_config_file_syntax.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "four exact documented nameOverride examples",
+      "gated": false
+    },
+    {
+      "id": "S-18",
+      "title": "Guidewire Cloud API — generating endpoints for Personal Auto",
+      "url": "https://docs.guidewire.com/cloud/pc/202603/cloudapica/cloudAPI/topics/508-LOBEndpoints/02-generating-endpoints-for-PA/c_generating-endpoints-for-the-Personal-Auto-product.html",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "API naming normalization context, not a PreFlight-generated endpoint claim",
+      "gated": false
+    },
+    {
+      "id": "S-19",
+      "title": "Sonar blog — four new languages in SonarQube Cloud",
+      "url": "https://www.sonarsource.com/blog/four-new-languages-arrive-in-sonarqube-cloud/",
+      "status": "200 OK via search index; direct fetch rate-limited on 2026-11-09",
+      "accessed": "2026-11-09",
+      "used_for": "native Gosu analysis positioning",
+      "gated": false,
+      "rate_limited": true
+    },
+    {
+      "id": "S-20",
+      "title": "Guidewire blog — Developer Assistants",
+      "url": "https://www.guidewire.com/resources/blog/developers/accelerating-p-c-delivery-with-developer-assistants-from-guidewire",
+      "status": "200 OK",
+      "accessed": "2026-11-09",
+      "used_for": "Developer Assistants GA; encroachment risk",
+      "gated": false
+    },
+    {
+      "id": "S-21",
+      "title": "Guidewire — Migrate to Guidewire Cloud (Cloud Assurance Services)",
+      "url": "https://www.guidewire.com/products/technology/guidewire-cloud/migrate-to-guidewire-cloud",
+      "status": "200 OK via search index; direct fetch 429 on 2026-11-09",
+      "accessed": "2026-11-09",
+      "used_for": "Cloud Assurance Services and partner assessments in migration planning",
+      "gated": false,
+      "rate_limited": true
+    },
+    {
+      "id": "S-22",
+      "title": "Guidewire Marketplace — Professional Services Lighthouse",
+      "url": "https://marketplace.guidewire.com/product/professional-services-lighthouse/01tPW00000IE4xSYAT",
+      "status": "200 OK via search index; direct fetch returned no body on 2026-11-09",
+      "accessed": "2026-11-09",
+      "used_for": "Lighthouse migration lab; code/workflow remediation",
+      "gated": false,
+      "rate_limited": true
+    },
+    {
+      "id": "S-23",
+      "title": "Guidewire developer blog — A Developer’s Journey to Guidewire Cloud (SurePath)",
+      "url": "https://www.guidewire.com/resources/blog/developers/a-developers-journey-to-guidewire-cloud",
+      "status": "200 OK via search index; direct fetch rate-limited on 2026-11-09",
+      "accessed": "2026-11-09",
+      "used_for": "SurePath delivery/assessment method; Cloud Assurance inspections",
+      "gated": false,
+      "rate_limited": true
+    },
+    {
+      "id": "S-24",
+      "title": "Syntra ETL — Guidewire data migration connector",
+      "url": "https://www.syntraetl.com/connectors/guidewire",
+      "status": "200 OK via search index; vendor claim",
+      "accessed": "2026-11-09",
+      "used_for": "adjacent third-party data extraction/migration tooling; not an independent evaluation",
+      "gated": false,
+      "claim_type": "vendor claim"
+    },
+    {
+      "id": "S-25",
+      "title": "Guidewire cda-client — Cloud Data Access reader",
+      "url": "https://github.com/Guidewire/cda-client",
+      "status": "200 OK",
+      "accessed": "2026-11-11",
+      "used_for": "CDA populates an S3 bucket and the reader downloads Parquet table data; streaming/export, not a synchronous in-app API",
+      "gated": false
+    },
+    {
+      "id": "S-26",
+      "title": "Guidewire App Events overview",
+      "url": "https://docs.guidewire.com/education/cloud-integration-basics/latest/docs/integration_cloud_basics/appevents_overview",
+      "status": "200 OK",
+      "accessed": "2026-11-11",
+      "used_for": "App Events asynchronous outbound integration; at-least-once delivery and ordering",
+      "gated": false
+    },
+    {
+      "id": "S-27",
+      "title": "PreFlight upgrade-resilience simulations (internal)",
+      "url": "app/services/resilience.py; docs/UPGRADE-RESILIENCE.md; docs/REALITY-BOUNDARY.md",
+      "status": "repository evidence",
+      "accessed": "2026-11-11",
+      "used_for": "Five GWCP 2027.04 scenarios, generation bump, revalidate/rollback/defer; simulations, not published release notes",
+      "gated": false,
+      "claim_type": "repository evidence"
+    }
+  ],
+  "prior_art": [
+    {
+      "id": "P-01",
+      "citation": "Dit et al., Feature location in source code: a taxonomy and survey, JSEP 2013",
+      "doi": "10.1002/smr.572",
+      "role": "feature location survey"
+    },
+    {
+      "id": "P-02",
+      "citation": "Marcus et al., An information retrieval approach to concept location in source code, WCRE 2004",
+      "role": "IR concept location"
+    },
+    {
+      "id": "P-03",
+      "citation": "Antoniol et al., Recovering traceability links between code and documentation, IEEE TSE 2002",
+      "role": "traceability recovery"
+    },
+    {
+      "id": "P-04",
+      "citation": "Murphy et al., Software reflexion models, FSE 1995 / IEEE TSE 2001",
+      "role": "architecture conformance"
+    },
+    {
+      "id": "P-05",
+      "citation": "Kelly & Weaver, The goal structuring notation, 2004",
+      "role": "assurance cases"
+    },
+    {
+      "id": "P-06",
+      "citation": "Hey et al., FTLR, ICSME 2021",
+      "doi": "10.1109/ICSME52107.2021.00008",
+      "role": "fine-grained traceability link recovery"
+    },
+    {
+      "id": "P-07",
+      "citation": "Fuchß et al., LiSSA, ICSE 2025",
+      "doi": "10.1109/ICSE55347.2025.00186",
+      "role": "RAG traceability link recovery"
+    },
+    {
+      "id": "P-08",
+      "citation": "TraceLLM, Requirements Engineering 31, 2026",
+      "doi": "10.1007/s00766-026-00460-1",
+      "role": "LLM prompt engineering for traceability"
+    },
+    {
+      "id": "P-09",
+      "citation": "de Macedo & da Costa, Reversa, arXiv:2605.18684, 2026",
+      "url": "https://arxiv.org/abs/2605.18684",
+      "role": "closest prior art: traceable operational specs, confidence marking, gaps, SHA-256 manifest"
+    },
+    {
+      "id": "P-10",
+      "citation": "GoQu (Sollers), CAST, IBM ADDI, Moderne/OpenRewrite, Guidewire CUE/Lighthouse/SurePath/Developer Assistants",
+      "role": "adjacent commercial tooling"
+    }
+  ],
+  "assets": [
+    {
+      "file": "assets/agents/case-studies-1440x900.png",
+      "bytes": 175374,
+      "sha256": "06f01882ce05bbb0f9e891d75066a62b788c408b699acc6f55ffc4dc3a42f7af"
+    },
+    {
+      "file": "assets/agents/case-studies-390x844.png",
+      "bytes": 81387,
+      "sha256": "96da228497fd5b50898e32c1a562cc044c37352c21f7f5e325eb77338d9cffec"
+    },
+    {
+      "file": "assets/agents/case-studies-outcome-strips.png",
+      "bytes": 10050,
+      "sha256": "de610a5bf478ac390a584d5fba0b7dbe29949ce78202b9b0444ad2e8de9462b4"
+    },
+    {
+      "file": "assets/agents/case-studies-outcomes-focus.png",
+      "bytes": 42454,
+      "sha256": "17257648b1035e5519a91c7bb642d25c11ee911dea4be580a72f6300714f1de3"
+    },
+    {
+      "file": "assets/agents/codebase-390x844.png",
+      "bytes": 82527,
+      "sha256": "bb86f4ee4886d15711d4547d5af8fdb7f68ea1818dc639aa6e80ca2706033ce7"
+    },
+    {
+      "file": "assets/agents/codebase-loop-1440x900.png",
+      "bytes": 173584,
+      "sha256": "7b47212f7f78dafc03a78ce4632c82e8584b8085d0dc097c1952d3e34a389e94"
+    },
+    {
+      "file": "assets/agents/codebase-patches-1440x900.png",
+      "bytes": 183934,
+      "sha256": "e7b856b30b8f3bd1d2a0890b1e663db3752bbf954183fa797b9b66bcd9895fdc"
+    },
+    {
+      "file": "assets/agents/codebase-upgrade-1440x900.png",
+      "bytes": 163542,
+      "sha256": "57508de7e02a46f090453da3d21c36f903de036cb320a7fec16778d744d9947a"
+    },
+    {
+      "file": "assets/agents/migrator-390x844.png",
+      "bytes": 74662,
+      "sha256": "e0effbc14ef9795a3455a4c4b8604b92e1f4ac3c9ee959a8cb1030a84e038f4e"
+    },
+    {
+      "file": "assets/agents/migrator-architect-1440x900.png",
+      "bytes": 155919,
+      "sha256": "032f225700e90bb945cf62226a974d0c57961964d5332ea82d8f0b912121be1d"
+    },
+    {
+      "file": "assets/agents/migrator-critic-1440x900.png",
+      "bytes": 131844,
+      "sha256": "228d35dacea56f43c9411eaf7e560c58b5e93d95131fbc3335e75528602f3da1"
+    },
+    {
+      "file": "assets/agents/migrator-guardian-1440x900.png",
+      "bytes": 153946,
+      "sha256": "9737f101b552e181c9bac5ae31d258406a250d27751d98376b53d0736fb33a5e"
+    },
+    {
+      "file": "assets/agents/migrator-loop-1440x900.png",
+      "bytes": 176096,
+      "sha256": "df8f46e1a2383ddd39b1da28e8f9200d0b4e901b94af4fcca68c39fd597c5fea"
+    },
+    {
+      "file": "assets/agents/migrator-scout-1440x900.png",
+      "bytes": 144968,
+      "sha256": "29dcffd7d80de82ed1998832cc4839940cea91f4d1dfe8ef72f7874975677b46"
+    },
+    {
+      "file": "assets/agents/migrator-scribe-1440x900.png",
+      "bytes": 159929,
+      "sha256": "25c4a6032253d35664722fe52b0c4cfa55874ff4b1d2a59c96bb91657fcdf842"
+    },
+    {
+      "file": "assets/assistant-citation-1440x900.png",
+      "bytes": 155690,
+      "sha256": "84791a198b521363dda73ad2ece919342f97854e3de1e8ead5564c7f788a5255"
+    },
+    {
+      "file": "assets/assistant-citation-panel.png",
+      "bytes": 28754,
+      "sha256": "44116b462b6b3893d1a2a77e2af156805c08ccaa7b084fb78597d45cb2736572"
+    },
+    {
+      "file": "assets/assistant-refusal-1440x900.png",
+      "bytes": 158180,
+      "sha256": "ef420e01f12284af06050a97425df655346ed2a6fa8a714a1f3762cc1bd39a44"
+    },
+    {
+      "file": "assets/assistant-refusal-panel.png",
+      "bytes": 22112,
+      "sha256": "4a382ca3f7792550b8d6061c96162a1b9bad0410dbf93bcc5a446bb1657f90d7"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-01-1440x900.png",
+      "bytes": 100594,
+      "sha256": "c48a1292d23a424cd31ce438fea1546792b8d856cfa77c213df8098db43deba5"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-01-390x844.png",
+      "bytes": 71475,
+      "sha256": "c008fa3032f3b7d2b5c4b11b8f8b20a30a68697ce854e6eb399503a26a6d82c4"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-02-1440x900.png",
+      "bytes": 177464,
+      "sha256": "1fc124ec4aadff40f2a602a1f43debb15af08665502e5f475475efe1d10bffac"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-02-390x844.png",
+      "bytes": 152561,
+      "sha256": "22c662f7a1c5a59407bb30b9039a200268670fbefd68442c0a0fa4b5a1f634d9"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-03-1440x900.png",
+      "bytes": 173099,
+      "sha256": "796966664ea25cd2f42c956774c76d411ea3d734e907d0de20668d0670430bb7"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-03-390x844.png",
+      "bytes": 125544,
+      "sha256": "b249c0fbb05e6d785c0b66ee1d092fc448064e2aee3ad26be47270613fa7fbba"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-04-1440x900.png",
+      "bytes": 137788,
+      "sha256": "fd5fb1b918e9fa3db33583c7a7848d47f60c2fe44761b00ddbf2011455e412f1"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-04-390x844.png",
+      "bytes": 137862,
+      "sha256": "4e647521ffca12c7da26d08ea95ff9a4ad6f60f7b512bcf7858e072cf1cfe0e1"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-05-1440x900.png",
+      "bytes": 218212,
+      "sha256": "fb525c9348ce99993b1ae8eece18ba7e0c2f52daeac131be3daf18b3e98c4762"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-05-390x844.png",
+      "bytes": 179360,
+      "sha256": "d736f6dd9b15dcd1117ead05b3e1d7654782f88ec927536326745aedd066ec3c"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-06-1440x900.png",
+      "bytes": 248184,
+      "sha256": "4c1692e6366e8843668e9a789feec494612db1e954049267c32a34e7382995ce"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-06-390x844.png",
+      "bytes": 93641,
+      "sha256": "c6a4ae1139e50a2f32cfcf5ea5c76ec1f1f28b3447e2c74ea95c47f142efde16"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-07-1440x900.png",
+      "bytes": 192045,
+      "sha256": "bcedbbd2d349b324d8ea51defce57ccab77ab336066e86cb9c890af98e03dd80"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-07-390x844.png",
+      "bytes": 86947,
+      "sha256": "7d603950b0cd04c9c64de226d2c3251f07d0707690d5308a436d682d8cf7f857"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-08-1440x900.png",
+      "bytes": 229818,
+      "sha256": "97ad930e710edc5d8dd26e8a965a1b0ca22b99fceaca2e08f002f5664e06100b"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-08-390x844.png",
+      "bytes": 97202,
+      "sha256": "29b106319d70e091d15b85f43941b07599f4d066d4455239a53732e64a269f99"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-09-1440x900.png",
+      "bytes": 210381,
+      "sha256": "575a0b1339ee6f197f6662ace30429164dc9ef8c2525c6b33fc7fa2d99625198"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-09-390x844.png",
+      "bytes": 99506,
+      "sha256": "cb212c8ed0e3b94db94535e56be131773b4fb027b934e42d4e851a935d94b8d3"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-10-1440x900.png",
+      "bytes": 227998,
+      "sha256": "dd9c58c014ea7f8506c98961c0eeca6aeb6ade2c7bb301aaea04a1ff518c15d5"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-10-390x844.png",
+      "bytes": 155201,
+      "sha256": "2a7176f6af65fb185c5c3e4bd7ff1b957ced2aaddc47534a582563433e13e0af"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-11-1440x900.png",
+      "bytes": 179346,
+      "sha256": "53ecff53315a2799107c63b0379704bce5791139fb981760e32b3029e0f981eb"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-11-390x844.png",
+      "bytes": 140753,
+      "sha256": "a528d88ca9f59e635ac77544298bfb5387afe637fd59a6290e436567605c4b80"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-12-1440x900.png",
+      "bytes": 297515,
+      "sha256": "308a81ec184b9c43f8598adae1cfd7d319464baca4b3b01743aa0b3466f754ea"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-12-390x844.png",
+      "bytes": 120912,
+      "sha256": "b06b969935670cee8fdbd977f962514385d84ac01457d26d865537ddb0424049"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-13-1024x768.png",
+      "bytes": 160137,
+      "sha256": "38e1447428bb1eefe785ebd06994d20e704cedb1a543532445f64884aeb39ae9"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-13-1280x720.png",
+      "bytes": 154364,
+      "sha256": "068caf048268f45fe69d0b4273c1498147abcf5f16066e9778e4204ee9a63754"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-13-1440x900.png",
+      "bytes": 171748,
+      "sha256": "166fcdb4245517252923d5ba0a0c004405cd5df5023273d3c6f4cc5deb12297c"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-13-1920x1080.png",
+      "bytes": 210603,
+      "sha256": "e8637b72d4c79cb4d26356513d006974fbe896026bc80903c46f76003fbb0dd2"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-13-390x844.png",
+      "bytes": 161988,
+      "sha256": "d0a6613ba23ce195d4c2322b6ddde9a149baef844281db7dd50591fa27f902e2"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-14-1024x768.png",
+      "bytes": 167275,
+      "sha256": "347210271aa3c8494f464f989a067de8e03d5b59926042b9a2d9c02b2c641ba2"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-14-1280x720.png",
+      "bytes": 168240,
+      "sha256": "43e246c02de52c577af63a5174f257af801be3c3ee08b22499ee66be500da488"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-14-1440x900.png",
+      "bytes": 211243,
+      "sha256": "e2570e56c32d67fea0b6fd5babbf3e01a62090f2029bc5db5c527417cb492a8e"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-14-1920x1080.png",
+      "bytes": 248851,
+      "sha256": "d382a5c550097eb679bea65b9566ba19e7d55110ef1b8f4411728e11de78ae02"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-14-390x844.png",
+      "bytes": 107786,
+      "sha256": "7821769825064b994042f815d752989618e37f7c06dedeacf201e6cc70ba5d60"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-15-1024x768.png",
+      "bytes": 130261,
+      "sha256": "0c6530f103ba1cadd4a7410b5b70d26d8cffa9a1ed19141077e85ac32b2b66c3"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-15-1280x720.png",
+      "bytes": 127224,
+      "sha256": "40def15b19ed77ab4230c8fe14c5dc6ed79133bad711e7aab9ab74be8f36104e"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-15-1440x900.png",
+      "bytes": 229528,
+      "sha256": "b1442508b72bd6eea75af67fdbcd3220de411a27e167d042509dff913e001969"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-15-1920x1080.png",
+      "bytes": 295980,
+      "sha256": "6fc7b4e26b153c0c064ad8d5bb385919fcce20879ae9fbed6bceee3ec9fac90a"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-15-390x844.png",
+      "bytes": 128232,
+      "sha256": "af41305c5d2545707d6f4c473a357ff41ec0a5a2f78c02b653d6346ffbcc1458"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-16-1024x768.png",
+      "bytes": 168956,
+      "sha256": "e0ec77a775c741b3fc7dff6ed69b24dc37dfc2e1e55e2f5105161f3c39682ad4"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-16-1280x720.png",
+      "bytes": 170709,
+      "sha256": "59fcec715a0e94e6839988dac9ef7434f89de9f4229be625fd2e7849d51d436f"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-16-1440x900.png",
+      "bytes": 222714,
+      "sha256": "2f07a9f657b5192ff7350e3fdd35297359144b66c80775a106137fa30ffdf8c2"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-16-1920x1080.png",
+      "bytes": 267366,
+      "sha256": "0060038c0fd48276d826414b1a4284c4914ac777bd597b2e72ba5f837491abbb"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-16-390x844.png",
+      "bytes": 115250,
+      "sha256": "29bc55dbe7e4490e96483a4fa3e2e600e4e5c277d5467720195e1a8d630cc000"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-17-1024x768.png",
+      "bytes": 162647,
+      "sha256": "c1b1ab3995542723ae65dbb3ea8ff193452b5975ed681752459b0136200cf417"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-17-1280x720.png",
+      "bytes": 168282,
+      "sha256": "86f95bd0d9dad251347004cba4a62fb82645f03e451965e3dce4b602ba306130"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-17-1440x900.png",
+      "bytes": 203700,
+      "sha256": "bc7a1094a0d6fcb9da293bd5f591cc71b2a448ca01288958f538baff2868be38"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-17-1920x1080.png",
+      "bytes": 241868,
+      "sha256": "7771d8ecead81c484a6c3c2504a406f264e27d684d6981b1df530127a09e7165"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-17-390x844.png",
+      "bytes": 152657,
+      "sha256": "ec9ba34f660c067e3ddca13a13c02e437c6fd7df558e87ff1accbfee7a6cc920"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-18-1024x768.png",
+      "bytes": 176295,
+      "sha256": "834a4c0945a7baed47518edebfe16f5026b9d5aa5096ee816d138e0706b3f3b1"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-18-1280x720.png",
+      "bytes": 172632,
+      "sha256": "7dd115f20263c4b7e8351cb311bf1f82b4549e2a788bb99ee161778fcf6c96fb"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-18-1440x900.png",
+      "bytes": 224828,
+      "sha256": "94252fcead2511004b0a21393c74b02d58ec698295cff2337cae7fc5069bb397"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-18-1920x1080.png",
+      "bytes": 277515,
+      "sha256": "d8d71a0aa7ecf179b38c1bb4e77b6885f41ed03a9e94b70a2c50cb96c935824f"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-18-390x844.png",
+      "bytes": 193489,
+      "sha256": "dad151380cc9fca71412eba20580f0bf46466c6494c951970a043cb20b41d842"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-19-1024x768.png",
+      "bytes": 175869,
+      "sha256": "1ae2c1d506d4dcae7f921260ae4872e91d594c39e767a7d8ca537df3c76da442"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-19-1280x720.png",
+      "bytes": 171342,
+      "sha256": "9d6a3dafb0186eb65fea7ee343e5f3c687abd57dda11a5d166e1362e879efc21"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-19-1440x900.png",
+      "bytes": 206073,
+      "sha256": "c81aca3e813dde7aa43edf79ef9f88a61ca35544288750a454b3475719700721"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-19-1920x1080.png",
+      "bytes": 275523,
+      "sha256": "433e687224320e777e25643ddbeeb72c5cdbf17c2c638b4a1b61e1302ea493bf"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-19-390x844.png",
+      "bytes": 163957,
+      "sha256": "12dcabc90557f3d9795a846b34aef2096ba4103b3a36a17e7646b80758c2671b"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-20-1440x900.png",
+      "bytes": 133501,
+      "sha256": "08893a18283eb5eef4b95c95e617cdf926c1f7dea13d8383fb80c6d6eef534cd"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-20-390x844.png",
+      "bytes": 115327,
+      "sha256": "7b9574544c7f54fbc1a874fb2b3002183f17a926d3d9d53e81368e799c9652c9"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-21-1440x900.png",
+      "bytes": 179511,
+      "sha256": "22d216c83b7806f00c95608358d303a0b475f104c66db688e1d756952b8e69d1"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-21-390x844.png",
+      "bytes": 149900,
+      "sha256": "0710fd87c1cd2c4b340909f2db0f884342c0039dd49f25e081bdbef07f0fbac4"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-22-1440x900.png",
+      "bytes": 182279,
+      "sha256": "a52ae882486bc481297647a7d31a4468a587677f3ffa8581c8380e3c8769d136"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-22-390x844.png",
+      "bytes": 162974,
+      "sha256": "6d659653569650c8ccaf33396df69dcbe33d817ae094ce89c9aa964294292f7c"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-23-1440x900.png",
+      "bytes": 130867,
+      "sha256": "0e29f03005ec8d330603481d8eb27e98838999933407edcad4845767e1ae9cb6"
+    },
+    {
+      "file": "assets/deck-23/deck-slide-23-390x844.png",
+      "bytes": 102819,
+      "sha256": "bdde97e5add490ef3306da9ffc64ab7aa2e009c7b2dba9c1f0835364af888fdc"
+    },
+    {
+      "file": "assets/deck-slide-01-1024x768.png",
+      "bytes": 75601,
+      "sha256": "793edeff1de51c10b4eb911b80371ac4d502eb000b49ac5cf18a87641205f728"
+    },
+    {
+      "file": "assets/deck-slide-01-1280x720.png",
+      "bytes": 78671,
+      "sha256": "5b83dc17d3c446c668c373fcb391baca55f8d9af5e6fbe56509aee7b096861a2"
+    },
+    {
+      "file": "assets/deck-slide-01-1440x900.png",
+      "bytes": 99367,
+      "sha256": "6d958cbb7e0500517a6b15a5fd0f294bbf9cb32a1a4a9d7cbe66307c96d45172"
+    },
+    {
+      "file": "assets/deck-slide-01-390x844.png",
+      "bytes": 70684,
+      "sha256": "af5e0ee9ea051c26636e9d86249d512c24c14de942fb4575f1660a870fb2b166"
+    },
+    {
+      "file": "assets/deck-slide-02-1280x720.png",
+      "bytes": 134912,
+      "sha256": "339103162727c9a6e44315517d245877dfa3b8ac49efe148c33d08b94138a02f"
+    },
+    {
+      "file": "assets/deck-slide-02-1440x900.png",
+      "bytes": 174140,
+      "sha256": "7c7e5541ca79e843a46a5d0511738d03ac47e2699e8dfd2cc7cda31ff16dc6c4"
+    },
+    {
+      "file": "assets/deck-slide-03-1024x768.png",
+      "bytes": 108076,
+      "sha256": "6f1fbb2aa7c61f625795f32c29761b975fac64d0e8efa8782f13ac566548a76b"
+    },
+    {
+      "file": "assets/deck-slide-03-1280x720.png",
+      "bytes": 113992,
+      "sha256": "00d50f9017e3145299ed9ad45ffc0e9a43ed6a1ef69960c4c8eab05528793714"
+    },
+    {
+      "file": "assets/deck-slide-03-1440x900.png",
+      "bytes": 168672,
+      "sha256": "bec331a94b679dba63d469ad36fda7a08c53e5735cbf4d37a4d58cb8076980cf"
+    },
+    {
+      "file": "assets/deck-slide-03-390x844.png",
+      "bytes": 124691,
+      "sha256": "560d4864fba4cbeec199b421db9d0a21e5098b79e7e106a946c46b58a99f239d"
+    },
+    {
+      "file": "assets/deck-slide-04-1280x720.png",
+      "bytes": 102696,
+      "sha256": "4703cd00f523ff103dfef4f3c2284d29ca3a68fe2b137fe3991f885e238c2c0e"
+    },
+    {
+      "file": "assets/deck-slide-04-1440x900.png",
+      "bytes": 133859,
+      "sha256": "fae5382817649c75fe77afea5031a3bdb4704def9d74df981ab0ce9115d8055c"
+    },
+    {
+      "file": "assets/deck-slide-05-1024x768.png",
+      "bytes": 143161,
+      "sha256": "7305ec055966978aaa61c0aba7e9e59097f3baed06dd4b00071d2ca61f0c1802"
+    },
+    {
+      "file": "assets/deck-slide-05-1280x720.png",
+      "bytes": 140096,
+      "sha256": "79baab058455134379e0a2de818c650b2495c1a94f902abc7deea7efad619741"
+    },
+    {
+      "file": "assets/deck-slide-05-1440x900.png",
+      "bytes": 205116,
+      "sha256": "61967a807ac1e8016d960463e646d63e697c6d7f202692d22232eaafdeeb045f"
+    },
+    {
+      "file": "assets/deck-slide-05-390x844.png",
+      "bytes": 167955,
+      "sha256": "695a6d2c5efb842a3b21e1fa2a100b6946e48d551a803c16356903de647fd054"
+    },
+    {
+      "file": "assets/deck-slide-06-1024x768.png",
+      "bytes": 175924,
+      "sha256": "b1cf189655419942389da126706b47e36e0db1f9e7bc034ada5bf9cfdbf709b0"
+    },
+    {
+      "file": "assets/deck-slide-06-1280x720.png",
+      "bytes": 192564,
+      "sha256": "0aaf6ffebafcce78221f0465571708a0a60ebadf40edf3a4be1c97579bee6775"
+    },
+    {
+      "file": "assets/deck-slide-06-1440x900.png",
+      "bytes": 243067,
+      "sha256": "cae6f88e03e7c9c4f6cf58b0cc4f9c1d295583e2d844935cae04450ba9adce66"
+    },
+    {
+      "file": "assets/deck-slide-06-390x844.png",
+      "bytes": 148410,
+      "sha256": "bf5f5815960faee822ba0aee7abbbfe4af74a7f4100ea3adb4bb1e94319c2819"
+    },
+    {
+      "file": "assets/deck-slide-07-1280x720.png",
+      "bytes": 144377,
+      "sha256": "d37f01bf554547ecb222be18c2e9dfcf4a06022d7a56832ed6160d4d84b72f8d"
+    },
+    {
+      "file": "assets/deck-slide-07-1440x900.png",
+      "bytes": 185453,
+      "sha256": "8522de8ca5eff10d6823a5ef98013258488c6c0eb6bbdde7755f3000538cb47c"
+    },
+    {
+      "file": "assets/deck-slide-08-1280x720.png",
+      "bytes": 165908,
+      "sha256": "0060dad73ef42a8b34a06b9352c37b4033939b82b801d494fbf56bdbb1611c0d"
+    },
+    {
+      "file": "assets/deck-slide-08-1440x900.png",
+      "bytes": 224380,
+      "sha256": "f5513031510890da3a39869571bd36ef844f9efe3f6889d7ab8e29f6d32af7b6"
+    },
+    {
+      "file": "assets/deck-slide-09-1024x768.png",
+      "bytes": 203250,
+      "sha256": "92bcc11058af937e83f89536c16f4bd179a2ad416db6a692201f3ad51f8e77d9"
+    },
+    {
+      "file": "assets/deck-slide-09-1280x720.png",
+      "bytes": 238252,
+      "sha256": "ab1260b516373aa4dccbc3b49ccd40b19e27360c32f15a68e4eca049da094538"
+    },
+    {
+      "file": "assets/deck-slide-09-1440x900.png",
+      "bytes": 289148,
+      "sha256": "e821b92eeadc856eb8fa4cc7d3ef35178b27deb38084ecf8fc2db3a02a37d8d5"
+    },
+    {
+      "file": "assets/deck-slide-09-390x844.png",
+      "bytes": 178707,
+      "sha256": "d3c47c322e5ad304a3631959afb322cb3427cc71714b90ff28af66bfdeab33be"
+    },
+    {
+      "file": "assets/deck-slide-10-1280x720.png",
+      "bytes": 138702,
+      "sha256": "38bf5f67a4b78f0bb9d813ec673218073fede8a726c8b68085e68274725d86af"
+    },
+    {
+      "file": "assets/deck-slide-10-1440x900.png",
+      "bytes": 223112,
+      "sha256": "967ae4c9077ed79fec8f69268d2bf1a64944c8db19ca36970c506075a7ea4294"
+    },
+    {
+      "file": "assets/deck-slide-11-1024x768.png",
+      "bytes": 109158,
+      "sha256": "aa6338da9bfe90341aeb28baeb298abc0b384b7e21889442cd8b85f567ca84b1"
+    },
+    {
+      "file": "assets/deck-slide-11-1280x720.png",
+      "bytes": 109803,
+      "sha256": "d00cda8a49d52e2223e3ae9c6603c8acdadb82314dbc59dc9da86ec1649eeebf"
+    },
+    {
+      "file": "assets/deck-slide-11-1440x900.png",
+      "bytes": 173269,
+      "sha256": "44d23bf056c451cc23d7a8b4a1c0e83af21447f0e44a1daf200e6c91b515ca86"
+    },
+    {
+      "file": "assets/deck-slide-11-390x844.png",
+      "bytes": 137138,
+      "sha256": "f8da85b69f3fe5a6d15c04a0738bd6608b2b94e219de734329441e3c2939233b"
+    },
+    {
+      "file": "assets/deck-slide-12-1024x768.png",
+      "bytes": 206302,
+      "sha256": "29d7b9fcbea11107c7e1fc2fe6f33fbc24a248b2f8387fdc86ae9642da3ffa4b"
+    },
+    {
+      "file": "assets/deck-slide-12-1280x720.png",
+      "bytes": 215145,
+      "sha256": "99dc9efa91f0b0cfc21d4aeb81714d37664ab1bccfc0ab7f7924f48ab72224f2"
+    },
+    {
+      "file": "assets/deck-slide-12-1440x900.png",
+      "bytes": 283391,
+      "sha256": "b2b35523f0403fa5fe71599d21dd8b8f64c90184d09066b0612fe73e045e15ef"
+    },
+    {
+      "file": "assets/deck-slide-12-390x844.png",
+      "bytes": 160913,
+      "sha256": "f729e017e9f1aea9138df9fdbc9d709c3ca4e5535a8b73e7c907abe86fac9b13"
+    },
+    {
+      "file": "assets/deck-slide-13-1024x768.png",
+      "bytes": 88682,
+      "sha256": "454d2f95fdf45946ba19038d20fa0524f803dc57e9cae4592e0e6f16b3e6daa9"
+    },
+    {
+      "file": "assets/deck-slide-13-1280x720.png",
+      "bytes": 87895,
+      "sha256": "6666a306591e6f9e32cd66084ff6f92cde069cf390579a1179c65b36f583cad5"
+    },
+    {
+      "file": "assets/deck-slide-13-1440x900.png",
+      "bytes": 126582,
+      "sha256": "a31df4439540567ca127f977a639b48a9605563c99dfedcf9550d191ef42a0b5"
+    },
+    {
+      "file": "assets/deck-slide-13-390x844.png",
+      "bytes": 111918,
+      "sha256": "647e61b465663744e84a94f6aefbadcc9ff0b44da609cbe6c924385447a506eb"
+    },
+    {
+      "file": "assets/deck-slide-14-1024x768.png",
+      "bytes": 130818,
+      "sha256": "18ffa3fa2bea82e5d421376a34296c8a82111fa5bec7dfc08082f1fa9c887724"
+    },
+    {
+      "file": "assets/deck-slide-14-1280x720.png",
+      "bytes": 129162,
+      "sha256": "294759189a3eebd8f6edbf539f9a8792ca4ddbd7719d3a882b7b880fc6785400"
+    },
+    {
+      "file": "assets/deck-slide-14-1440x900.png",
+      "bytes": 169341,
+      "sha256": "d597038ba2e2a63946e8e15b88a68bb670450c6550a4c83831fdd0f6ad6d95ea"
+    },
+    {
+      "file": "assets/deck-slide-14-390x844.png",
+      "bytes": 143253,
+      "sha256": "68c6393607f0ce72ee159507bd4ada6d8b91343416249a1b541f76fd2309fca7"
+    },
+    {
+      "file": "assets/deck-slide-15-1280x720.png",
+      "bytes": 122985,
+      "sha256": "cb7fb3664b1e614e3b51b1262ea00b54c546c7ce3592881c3376effea21590af"
+    },
+    {
+      "file": "assets/deck-slide-15-1440x900.png",
+      "bytes": 172618,
+      "sha256": "32292e7653bbe3daf239233a92a81780c6a33bd4b8f81e0d0149d1168044689b"
+    },
+    {
+      "file": "assets/deck-slide-16-1024x768.png",
+      "bytes": 97049,
+      "sha256": "2abdf7efb92f1571a58dc5548ceaf63aa13f08947f282fae2ea0eb31cd558f64"
+    },
+    {
+      "file": "assets/deck-slide-16-1280x720.png",
+      "bytes": 101472,
+      "sha256": "8115f76136cb715520955dc5a7c2eb813bd7f5b2eae7092ab7fec03dffa680f7"
+    },
+    {
+      "file": "assets/deck-slide-16-1440x900.png",
+      "bytes": 128143,
+      "sha256": "c4a40e5b28290019437a8f99b28c39456fdfd6ea77dcfdeb9fdbb66afb48dacf"
+    },
+    {
+      "file": "assets/deck-slide-16-390x844.png",
+      "bytes": 100226,
+      "sha256": "62dfb45e6508ecb324ebd830834021159f311bf6a2e3b96dd0abfeda1ca53942"
+    },
+    {
+      "file": "assets/evaluation-1440x900.png",
+      "bytes": 189687,
+      "sha256": "2650e1c6616e70892742ec2022c3dc632df6d7d0998a3e15e12c8d659ef3f102"
+    },
+    {
+      "file": "assets/evaluation-full-1440.png",
+      "bytes": 526662,
+      "sha256": "7d880203f413f802af0de964a4990e49ed7584816e148255dc143131ef9975e0"
+    },
+    {
+      "file": "assets/evaluation-intervals.png",
+      "bytes": 36377,
+      "sha256": "78128550cd77a8c9ecb8693b406dce83017b993e21c0fd5ace1efade884eaf37"
+    },
+    {
+      "file": "assets/findings-1280x720.png",
+      "bytes": 129143,
+      "sha256": "646ee5cc000c49ee57a83ba99a99353d27459e7a45ba3c074187e3504477decd"
+    },
+    {
+      "file": "assets/findings-1440x900.png",
+      "bytes": 189769,
+      "sha256": "079d671acf37f4aeb6c4ff4b483ee44aa4475c09011a449179cfc2062631af3f"
+    },
+    {
+      "file": "assets/findings-focus-1440x900.png",
+      "bytes": 216422,
+      "sha256": "4c8e3974e80b5866680f2f7be03e3a7c0618fbf2805cbbca71e9b13819318f48"
+    },
+    {
+      "file": "assets/findings-full-1440.png",
+      "bytes": 650700,
+      "sha256": "0dbe2c115193beb525902a491c817771a87322fb286e9d29c3339e9256d1a587"
+    },
+    {
+      "file": "assets/findings-guard-query-make.png",
+      "bytes": 20560,
+      "sha256": "2673856252e8859e82671e13071e43c09cc8b5272f34e2ec776ec9b1632f9b14"
+    },
+    {
+      "file": "assets/findings-guards-1440.png",
+      "bytes": 156556,
+      "sha256": "1d029a356341a0f0fdb22c64de750a18050295771b0397beded32e5b6202d02e"
+    },
+    {
+      "file": "assets/findings-table-clean-1440x900.png",
+      "bytes": 153516,
+      "sha256": "f21fca1443ea296a2d062422830422e80d0d70bb9d6f9ae15144a4289e4fe49d"
+    },
+    {
+      "file": "assets/manifest-excluded-1280x900.png",
+      "bytes": 151634,
+      "sha256": "6bcc506fe4f10bf4917d2da5ecbe1056f8eca9a157b8e6f20c0e997436ed3184"
+    },
+    {
+      "file": "assets/manifest-excluded-1440x900.png",
+      "bytes": 165908,
+      "sha256": "85a3e7679a5d862937974e39df919f8a02776b6c6afcd50984bef6387af2a0be"
+    },
+    {
+      "file": "assets/manifest-focus-1440x900.png",
+      "bytes": 96566,
+      "sha256": "d65f8b0d20e0580b83f706762663ab4f75251798046ae157e6b3c534830f103e"
+    },
+    {
+      "file": "assets/packet-1440x900.png",
+      "bytes": 190366,
+      "sha256": "4bfb30c4e967393f2a44f604a6f69de5c634e845b7ab84b4dee377e2466ff087"
+    },
+    {
+      "file": "assets/packet-focus-1440x900.png",
+      "bytes": 138305,
+      "sha256": "74fa9b897c7fac7a005e9dba2e909ade9a391d23e84e139194d3537a1d4440b1"
+    },
+    {
+      "file": "assets/packet-full-1440.png",
+      "bytes": 732636,
+      "sha256": "adf7f3cab64d0bf0a712bde1244d1a0241151aa6887956501ef4f361b477e9e1"
+    },
+    {
+      "file": "assets/packet-predecision-1440x900.png",
+      "bytes": 189835,
+      "sha256": "cae5f47689964b8b0a14e3b11031ae4240bb85416cd8da798bd9310a197ac1fd"
+    },
+    {
+      "file": "assets/packet-predecision-focus-1440x900.png",
+      "bytes": 137693,
+      "sha256": "9a4642d63342b6d6b1dbd8f0ddeca6d805194c3e4d0bc81f81eeae8f13b60a13"
+    },
+    {
+      "file": "assets/packet-predecision-full-1440.png",
+      "bytes": 715559,
+      "sha256": "b365358dd3839a1306743b83343df445b025334751685a3c29ac144bddcff44a"
+    },
+    {
+      "file": "assets/reconstruction-1440x900.png",
+      "bytes": 183063,
+      "sha256": "8b4a84449c6e3e672500c48bced12805b5d5ac115e8889d710804b28411debf8"
+    },
+    {
+      "file": "assets/reconstruction-after-decision-1440x900.png",
+      "bytes": 172701,
+      "sha256": "b8e7b41d27625d040764f35f2ca30d6ded3233be89cf2fb35cc40d5212271b90"
+    },
+    {
+      "file": "assets/reconstruction-after-decision-focus-1440x900.png",
+      "bytes": 120905,
+      "sha256": "40085e56e6bd835cdc3e5c638968813ada88fac0fdb69cdd7c822412d79d9c07"
+    },
+    {
+      "file": "assets/reconstruction-after-decision-full.png",
+      "bytes": 341407,
+      "sha256": "355a0127d35db97c832e0a9ab678e5ea972bebc619d7c4baca4407af555e5373"
+    },
+    {
+      "file": "assets/reconstruction-assumptions-1440x900.png",
+      "bytes": 161897,
+      "sha256": "e71764ffbe160a8997598f174cfa374841c5e4a7c780af3817821db0ac91600b"
+    },
+    {
+      "file": "assets/reconstruction-focus-1440x900.png",
+      "bytes": 134302,
+      "sha256": "ee8f14f7c5cb92559cdf1d452ee7cf01c615dd18947ed5ca66565073822d3263"
+    },
+    {
+      "file": "assets/reconstruction-full-1440.png",
+      "bytes": 328148,
+      "sha256": "dda78b3467c8dde2021ff92e2daa108c8a440d28987bd30404b782efcafb9ce6"
+    },
+    {
+      "file": "assets/reconstruction-m12-row.png",
+      "bytes": 15973,
+      "sha256": "e659cc7ff0f1d26db6317eca114adca349532ee6196d2ee9fd44514dc2ddac17"
+    },
+    {
+      "file": "assets/workbench-1280x720.png",
+      "bytes": 149570,
+      "sha256": "ef44414aef60a663cd5a66d4175938211f397422c1d8eb07f0e30d20dc81f077"
+    },
+    {
+      "file": "assets/workbench-1280x900.png",
+      "bytes": 174535,
+      "sha256": "ebd4449f72f31faa06670c071a17df26b463fb39bc1e1ffd9b0f1eb10f1868c6"
+    },
+    {
+      "file": "assets/workbench-1440x900.png",
+      "bytes": 172055,
+      "sha256": "998597246d28fb4028c6969e6f051dab00f9eab9d8ed17e6a163f204dbbd788b"
+    },
+    {
+      "file": "assets/workbench-390x844-full.png",
+      "bytes": 307427,
+      "sha256": "f0611c9f4e9d96b7514cb4b8883970c91e1df5800b3fffbc6309697217f8b2da"
+    },
+    {
+      "file": "assets/workbench-390x844.png",
+      "bytes": 66917,
+      "sha256": "d406cbce4c86043d01edc08ef6e935c9bcd6304e23c217387e848d99d5c7397a"
+    },
+    {
+      "file": "assets/workbench-evidence-1440x900.png",
+      "bytes": 185839,
+      "sha256": "1b2ae04ee29855a96a260d7b722d5a2fe2f2f4d8682ee710f5bbcb5d64ddd830"
+    },
+    {
+      "file": "assets/workbench-evidence-drawer.png",
+      "bytes": 17825,
+      "sha256": "d4418d28f2c914c7e5093c3b77bee981db1a20855aa9658509611491a8e5502f"
+    },
+    {
+      "file": "assets/workbench-evidence-panel.png",
+      "bytes": 40973,
+      "sha256": "706ce431820c1659ff7e8b3372c5d7319b507f8f93f4fadb9e19c0cba49496f7"
+    },
+    {
+      "file": "assets/workbench-focus-1440x900.png",
+      "bytes": 104242,
+      "sha256": "2497f26c1ffcb2a135b2f49f9ddb8184a96db58709628de71f85dca9dc5cf5fd"
+    },
+    {
+      "file": "assets/workbench-full-1440.png",
+      "bytes": 340715,
+      "sha256": "368ff42f5e25036d4ee0baee48f5978b0da9291fd0dfa6c76969dc551c21829a"
+    }
+  ],
+  "validation": {
+    "viewports": {
+      "1920x1080": {
+        "slides": 23,
+        "failures": []
+      },
+      "1440x900": {
+        "slides": 23,
+        "failures": []
+      },
+      "1280x720": {
+        "slides": 23,
+        "failures": []
+      },
+      "1024x768": {
+        "slides": 23,
+        "failures": []
+      },
+      "390x844": {
+        "slides": 23,
+        "failures": []
+      }
+    },
+    "console_errors": [],
+    "external_requests": [],
+    "font_floor_css_px": 10.5,
+    "min_effective_font_px": 10.08,
+    "footer_390": "Synthetic estate · not affiliated with Guidewire · Official Cloud Assurance: not run",
+    "footer_390_clipped": false,
+    "reduced_motion": {
+      "media": "reduce",
+      "slide_body_animation": "none",
+      "agent_node_animation": "none",
+      "transition_duration": "0s",
+      "passed": true
+    },
+    "pdf_pages": 23,
+    "pdf_tagged": "yes",
+    "pdf_boundary_pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23
+    ],
+    "screenshots": 67,
+    "notes": "All 23 slides checked at all five viewports, including content below the body, right-edge overflow, dynamic font sizes, reduced motion, console errors, and external requests. Detail: assets/deck-23/validation.json."
+  },
+  "asset_count": 175,
+  "agent_demo": {
+    "run_id": "R-DEMO-001",
+    "feature_id": "PA-VEH-01",
+    "status": "completed_with_gates",
+    "agents": [
+      "Scout",
+      "Architect",
+      "Guardian",
+      "Critic",
+      "Scribe"
+    ],
+    "handoff": "straight handoff chain (Scribe seals); the codebase lab is the cyclic loop (Planner seals)",
+    "files": 300,
+    "evidence": 101,
+    "feature_evidence": 31,
+    "findings": 24,
+    "dispositions": 12,
+    "packages": 5,
+    "gates": 11,
+    "assumption_gates": 3,
+    "rule_groups": 8,
+    "high_gates": 6,
+    "critic_checks": "7/7",
+    "auto_approved": 0,
+    "bundle_files": 8,
+    "audit_events": 12,
+    "seal_prefixes": {
+      "plan": "3c307f75205c",
+      "report": "8770963bd2fd",
+      "bundle": "6c5b7f5a5aec",
+      "agent_log": "5c28ba80c3f75eb6"
+    },
+    "review_packet_audit": {
+      "seed_events": 9,
+      "after_runbook_actions": 11
+    },
+    "optional_live_run": {
+      "run_id": "R-20261111-052740-b001",
+      "model": "mimo-v2.6-flash",
+      "calls": 3,
+      "ungrounded_claims_passed": 0,
+      "guardian_model_calls": 0,
+      "critic_tokens": 1706,
+      "critic_latency_ms": 14501
+    },
+    "codebase_cases": {
+      "cascade-mutual": {
+        "findings": 18,
+        "errors": 10,
+        "warnings": 8,
+        "patches": 22,
+        "iterations": 2,
+        "gates": 10,
+        "rules_fired": 13,
+        "structural_score": 100,
+        "human_gate_adjusted": 74,
+        "status": "green_with_human_gates"
+      },
+      "harbor-pc": {
+        "findings": 20,
+        "errors": 11,
+        "warnings": 9,
+        "patches": 21,
+        "iterations": 2,
+        "gates": 11,
+        "rules_fired": 15,
+        "structural_score": 100,
+        "human_gate_adjusted": 71,
+        "status": "green_with_human_gates"
+      }
+    },
+    "rule_families": 16,
+    "sarif": {
+      "version": "2.1.0",
+      "driver": "PreFlight CodeGuard",
+      "cascade_results": 18,
+      "cascade_rules": 13,
+      "harbor_results": 20,
+      "harbor_rules": 15,
+      "official_cloud_assurance": false,
+      "synthetic": true
+    },
+    "upgrade_scenarios": [
+      "GWCP-APD-NAMING-2027.04",
+      "GWCP-APP-EVENTS-V2-2027.04",
+      "GWCP-GATEWAY-MTLS-2027.04",
+      "GWCP-GOSU-API-REMOVAL-2027.04",
+      "GWCP-CLOUD-API-VERSION-2027.04"
+    ],
+    "upgrade_exposure": {
+      "cascade": [
+        2,
+        3,
+        7,
+        14,
+        4
+      ],
+      "harbor": [
+        2,
+        3,
+        6,
+        14,
+        3
+      ]
+    },
+    "reality_boundary": {
+      "synthetic_rehearsal": true,
+      "actual_migration": false,
+      "tenant_contacted": false,
+      "compiled_against_guidewire": false,
+      "official_cloud_assurance": false,
+      "release_scenarios": "simulated, not published 2027.04 release notes",
+      "cda": "streaming/export to S3 Parquet; synchronous reads use Gosu Query or an application API",
+      "servlet_wording": "not a recommended practice, not unsupported",
+      "footprints": "illustrative synthetic values",
+      "harbor_apd": "type-level APD naming preparation only; full APD conversion not modeled"
+    }
+  }
+}

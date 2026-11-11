@@ -1,0 +1,235 @@
+{% extends "base.html" %}
+{% from "_macros.html" import claim, severity, scroll_region, state_pill, pluralize, effective_change_state %}
+
+{% block content %}
+{% set packet_section_count = view.packet.pages|length if view.packet else 0 %}
+{% set accepted_changes = view.changes|selectattr('approval_state', 'equalto', 'accepted')|list|length %}
+<div class="page-head">
+  <div>
+    <div class="eyebrow">Review artifact</div>
+    <h1>Review packet</h1>
+    <p class="lede">{% if packet_section_count %}A {{ packet_section_count }}-section packet you can review, challenge, and download.{% else %}A review packet appears here once this run has a reconstruction draft.{% endif %} Local draft; not a quote,
+    not a certification, not a deployment.</p>
+  </div>
+  <div class="head-meta">
+    {% if view.packet and not packet_refresh_error %}<a class="btn btn-primary" href="/packet/export?run={{ run_id }}">Download packet HTML</a>{% endif %}
+  </div>
+</div>
+
+{% if packet_refresh_error and view.packet %}
+<div class="banner banner-error" role="alert">
+  <strong>Packet refresh failed; this artifact may be stale.</strong>
+  {{ packet_refresh_error }}. Export is blocked until the packet can be regenerated from a verified
+  audit chain.
+</div>
+{% endif %}
+{% if view.packet %}
+{% set counts = view.packet.get('counts', {}) %}
+{% set packet_hash = view.packet.hashes.get('packet') or view.packet.get('packet_sha256') or '' %}
+<div class="banner banner-info">
+  <strong>Official Cloud Assurance: not run.</strong> Synthetic demonstration estate. Findings are advisory
+  and the extension draft is non-deployable.
+</div>
+
+<section class="packet-sections">
+  {% for page in view.packet.pages %}
+  <article class="packet-card">
+    <div class="packet-number">{{ '%02d'|format(loop.index) }}</div>
+    <h2>{{ page }}</h2>
+    {% if loop.index == 1 %}
+    <p class="muted">{{ view.status.project_id }} / {{ view.status.fixture_id }} / {{ run_id }}</p>
+    <p>Snapshot <code>{{ view.packet.hashes.snapshot|short }}</code>; packet
+    <code>{{ packet_hash|short }}</code>.</p>
+    <p>Audit chain verified: <strong>{{ 'yes' if view.audit_verified else 'no' }}</strong>
+    ({{ view.packet.audit_event_count|default(counts.get('audit_events', 0), true) }} events).</p>
+    {% elif loop.index == 2 %}
+    <p>{{ pluralize(view.features|length, 'feature') }}, {{ pluralize(view.findings|length, 'advisory finding') }},
+    {{ pluralize(view.readiness|length, 'separate readiness flag') }}, {{ pluralize(view.mappings|length, 'disposition') }},
+    {{ pluralize(view.changes|length, 'target change') }} &middot;
+    {{ accepted_changes }} of {{ view.changes|length }} approved, {{ pluralize(view.assumptions|length, 'assumption') }}.</p>
+    {% elif loop.index == 3 %}
+    <p>{{ view.manifest.file_count }} files read; {{ view.unsupported_count }} unsupported/corrupt files
+    appear in the packet's excluded-files table with path, status, and reason. Confidence labels are shown
+    on every feature and in the manifest.</p>
+    {% elif loop.index == 4 %}
+    <p>{{ pluralize(view.assumptions|length, 'assumption') }} with impact ranges and questions to ask.
+    {{ pluralize(view.mappings|length, 'mapping') }} list source, target, disposition, provenance, and reviewer state;
+    {{ pluralize(view.changes|length, 'target change') }} list their approval state and path.</p>
+    {% elif loop.index == 5 %}
+    <p>{{ pluralize(view.findings|length, 'finding') }} from {{ pluralize(view.findings|map(attribute='rule_id')|unique|list|length, 'rule') }},
+    grouped by rule with source path:line and redacted evidence excerpts. Readiness flags are reported
+    separately, not mixed into advisory findings.</p>
+    {% elif loop.index == 6 %}
+    <p>Complete evidence set ({{ counts.get('evidence', (view.evidence|length) + (view.review_evidence|length)) }}
+    items: full discovery evidence plus review evidence linked to findings), the full hash-chained audit
+    trail, and all artifact hashes including the reproducible packet hash. Audit verified:
+    <strong>{{ 'yes' if view.audit_verified else 'no' }}</strong>.</p>
+    {% endif %}
+  </article>
+  {% endfor %}
+</section>
+
+<div class="grid-2 packet-notes-grid">
+  <section class="panel">
+    <div class="panel-head"><h2>Assumption register</h2></div>
+    {% if view.assumptions %}
+    {% call scroll_region("Packet assumption register table, horizontally scrollable if needed") %}
+      <table class="data-table compact packet-assumptions-table">
+        <caption>Assumptions included in the review packet.</caption>
+        <thead><tr><th scope="col">ID</th><th scope="col">Statement</th><th scope="col">Range</th><th scope="col">Question</th><th scope="col">Owner</th><th scope="col">Status</th></tr></thead>
+        <tbody>
+          {% for item in view.assumptions %}
+          <tr><td><code class="rule-code">{{ item.assumption_id }}</code></td><td>{{ item.statement }}<div class="muted">{{ item.impact_caveat }}</div></td><td>{{ item.impact_range_days[0]|int }}-{{ item.impact_range_days[1]|int }} engineer-days</td><td>{{ item.question_to_ask }}</td><td>{{ item.owner }}</td><td>{{ item.status }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endcall %}
+    {% else %}<p class="muted">No assumptions.</p>{% endif %}
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h2>Findings summary</h2></div>
+    {% if view.findings %}
+    {% call scroll_region("Packet findings summary table, horizontally scrollable if needed") %}
+      <table class="data-table compact">
+        <caption>Findings summary included in the review packet.</caption>
+        <thead><tr><th scope="col">Rule</th><th scope="col">Severity</th><th scope="col">Claim</th><th scope="col">State</th></tr></thead>
+        <tbody>
+          {% for finding in view.findings %}
+          <tr><td><code>{{ finding.rule_id }}</code></td><td>{{ severity(finding.severity) }}</td><td>{{ claim(finding.claim_strength) }}</td><td>{{ state_pill(finding.decision) }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endcall %}
+    {% else %}<p class="muted">No findings.</p>{% endif %}
+    <h3>Readiness flags ({{ view.readiness|length }})</h3>
+    {% if view.readiness %}
+    {% call scroll_region("Packet readiness flags table, horizontally scrollable if needed") %}
+      <table class="data-table compact readiness-table">
+        <caption>Readiness flags included in the review packet.</caption>
+        <thead><tr><th scope="col">Flag</th><th scope="col">Rule</th><th scope="col">Claim</th><th scope="col">Standard</th><th scope="col">State</th></tr></thead>
+        <tbody>
+          {% for finding in view.readiness %}
+          <tr><td><code>{{ finding.finding_id }}</code> {{ finding.title }}</td><td><code>{{ finding.rule_id }}</code></td><td>{{ claim(finding.claim_strength) }}</td><td>{{ finding.standard_id or finding.standard_title or 'none' }}</td><td>{{ state_pill(finding.decision) }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% endcall %}
+    {% else %}<p class="muted">No separate readiness flags.</p>{% endif %}
+  </section>
+</div>
+
+<section class="panel">
+  <div class="panel-head"><h2>Dispositions and draft changes</h2><span class="muted">{{ pluralize(view.mappings|length, 'mapping') }} / {{ pluralize(view.changes|length, 'change') }}</span></div>
+  {% if view.mappings %}
+  {% call scroll_region("Packet dispositions table, horizontally scrollable if needed") %}
+    <table class="data-table compact packet-mappings-table">
+      <caption>Mapping and disposition ledger included in the review packet.</caption>
+      <thead><tr><th scope="col">ID</th><th scope="col">Source</th><th scope="col">Target</th><th scope="col">Disposition</th><th scope="col">Provenance</th><th scope="col">Reviewer state</th></tr></thead>
+      <tbody>
+        {% for item in view.mappings %}
+        <tr><td><code>{{ item.mapping_id }}</code></td><td>{{ item.source_ref }}</td><td>{{ item.target_path }}</td><td>{{ item.disposition }}</td><td>{{ item.provenance }}</td><td>{{ state_pill(item.reviewer_state) }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endcall %}
+  {% else %}<p class="muted">No mappings.</p>{% endif %}
+  {% if view.changes %}
+  {% call scroll_region("Packet changes table, horizontally scrollable if needed") %}
+    <table class="data-table compact changes-table">
+      <caption>Draft changes awaiting approval in the review packet.</caption>
+      <thead><tr><th scope="col">Change</th><th scope="col">Approval state</th><th scope="col">Target path</th></tr></thead>
+      <tbody>
+        {% for item in view.changes %}
+        {% set item_state = effective_change_state(view.decisions, item.change_id, item.approval_state) %}
+        <tr><td><code>{{ item.change_id }}</code></td><td>{{ state_pill(item_state) }}</td><td>{{ item.target_path }}</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endcall %}
+  {% else %}<p class="muted">No target changes.</p>{% endif %}
+</section>
+
+<section class="panel">
+  <div class="panel-head"><h2>Hashes and audit</h2><span class="muted">{{ 'tamper-evident local log' if view.audit_verified else 'audit verification FAILED' }}</span></div>
+  {% call scroll_region("Packet hashes and audit values table, horizontally scrollable if needed") %}
+    <table class="data-table compact">
+      <caption>Packet hashes and audit values.</caption>
+      <thead><tr><th scope="col">Hash</th><th scope="col">Value</th></tr></thead>
+      <tbody>
+        {% for name, value in view.packet.hashes.items() %}
+        <tr><td>{{ name }}</td><td><code class="hash">{{ value }}</code></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% endcall %}
+  <p class="muted">Audit events: {{ view.packet.audit_event_count|default(counts.get('audit_events', 0), true) }}.
+  The packet hash covers the rendered HTML; content digests cover findings, mappings, assumptions, and evidence.
+  This is a local tamper-evident log, not non-repudiation. Two-step verification:
+  <code>preflight verify-packet {{ run_id }}</code> checks the packet and its content digests;
+  <code>preflight verify-audit {{ run_id }}</code> checks the audit chain only, not the packet.</p>
+</section>
+
+{% set all_evidence = (view.evidence or []) + (view.review_evidence or []) %}
+{% set audit_events = view.audit or [] %}
+<section class="panel packet-appendix" aria-labelledby="packet-appendix-heading">
+  <div class="panel-head">
+    <div>
+      <h2 id="packet-appendix-heading">Evidence and audit appendix</h2>
+      <p class="muted">The counts claimed by section 06, rendered as inspectable records rather than hashes alone.</p>
+    </div>
+    <a class="text-link" href="/api/runs/{{ run_id }}/audit" target="_blank" rel="noopener">Open audit JSON</a>
+  </div>
+
+  <details class="appendix-details packet-evidence-appendix">
+    <summary>Evidence appendix ({{ all_evidence|length }} items)</summary>
+    <p class="muted">Discovery evidence plus review evidence. Each ID opens the evidence record; excerpts are redacted at capture where required.</p>
+    <p class="scroll-hint" data-scroll-hint data-scroll-always>Scroll horizontally to see all columns. <span aria-hidden="true">&rarr;</span></p>
+    <div class="table-scroll" role="region" aria-label="Packet evidence appendix" tabindex="0" data-table-scroll>
+      <table class="data-table compact packet-evidence-table">
+        <caption>Complete evidence appendix from the packet inputs.</caption>
+        <thead><tr><th scope="col">Evidence</th><th scope="col">Source</th><th scope="col">Locator</th><th scope="col">Excerpt</th><th scope="col">Method</th></tr></thead>
+        <tbody>
+          {% for item in all_evidence %}
+          <tr>
+            <td><a class="evidence-link" href="/api/runs/{{ run_id }}/evidence/{{ item.evidence_id }}" target="_blank" rel="noopener"><code>{{ item.evidence_id }}</code></a></td>
+            <td><code>{{ item.path }}</code></td>
+            <td>{% if item.locator is mapping %}{% if item.locator.line %}line {{ item.locator.line }} · {% endif %}{{ item.locator.kind or '' }} {{ item.locator.value or '' }}{% else %}{{ item.locator or '—' }}{% endif %}</td>
+            <td><code class="packet-excerpt">{{ item.excerpt }}</code></td>
+            <td>{{ item.method or '—' }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+
+  <details class="appendix-details packet-audit-appendix" open>
+    <summary>Audit events ({{ audit_events|length }})</summary>
+    <div class="table-scroll" role="region" aria-label="Packet audit events" tabindex="0" data-table-scroll>
+      <table class="data-table compact packet-audit-table">
+        <caption>Hash-chained audit events included in this packet.</caption>
+        <thead><tr><th scope="col">Seq</th><th scope="col">Time</th><th scope="col">Agent</th><th scope="col">Action</th><th scope="col">Object</th><th scope="col">Hash</th></tr></thead>
+        <tbody>
+          {% for event in audit_events %}
+          <tr>
+            <td>{{ event.seq }}</td>
+            <td><code>{{ event.ts }}</code></td>
+            <td>{{ event.agent or event.actor or 'system' }}</td>
+            <td><code>{{ event.action }}</code></td>
+            <td><code>{{ event.object_id }}</code></td>
+            <td><code title="{{ event.hash }}">{{ event.hash[:16] }}</code></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </details>
+</section>
+{% else %}
+<section class="panel empty-inline">
+  <h2>Packet not generated</h2>
+  <p>No packet has been generated for this run yet.</p>
+  <p class="muted">Complete a run with a reconstruction draft to generate the review packet.</p>
+</section>
+{% endif %}
+{% endblock %}

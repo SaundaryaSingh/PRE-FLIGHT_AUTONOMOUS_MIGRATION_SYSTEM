@@ -1,0 +1,341 @@
+"""PreFlight command line."""
+
+from __future__ import annotations
+
+import argparse
+import ipaddress
+import json
+import os
+import sys
+from pathlib import Path
+
+from app.config import REPO, Settings
+from app.services.intake import build_manifest, snapshot_hash
+from app.services.packet import verify_packet_artifacts
+from app.services.migrator import MIGRATION_ARTIFACT, run_migration, verify_migration_log
+from app.services.code_migration import run_code_migration
+from app.services.llm import LLMConfig, chat_json
+from app.services.pipeline import execute_run
+from app.services.resilience import SCENARIOS
+from app.services.sarif import sarif_json
+from app.store import RunStore
+
+
+def _store(args) -> RunStore:
+    return RunStore(Path(args.data))
+
+
+def _is_loopback_bind(host: str) -> bool:
+    value = (host or "").strip()
+    if value.lower() == "localhost":
+        return True
+    try:
+        return ipaddress.ip_address(value).is_loopback
+    except ValueError:
+        return False
+
+
+def cmd_serve(args) -> int:
+    if not _is_loopback_bind(args.host) and (
+        os.environ.get("PREFLIGHT_ALLOW_NONLOCAL") or ""
+    ).strip().lower() not in {"1", "true", "yes", "on"}:
+        print(
+            f"refusing to bind {args.host!r}: the product has no authentication. "
+            "Use a loopback host, or set PREFLIGHT_ALLOW_NONLOCAL=1 to override.",
+            file=sys.stderr,
+        )
+        return 2
+    import uvicorn
+
+    print(f"PreFlight listening on {args.host}:{args.port} (remote access disabled by default)")
+    uvicorn.run("app.main:app", host=args.host, port=args.port, log_level="info")
+    return 0
+
+
+def cmd_seed(args) -> int:
+    from scripts.seed_demo import seed
+
+    result = seed(Path(args.data), "demo-slice-300", force=True)
+    if result is None:
+        print("demo run already exists")
+        return 0
+    print(f"seeded R-DEMO-001: {len(result.discovery.features)} features")
+    return 0
+
+
+def _frozen_fixture_hash(fixture_id: str) -> str | None:
+    try:
+        payload = json.loads(
+            (REPO / "ground_truth" / "FROZEN.json").read_text(encoding="utf-8")
+        )
+        entry = payload.get("fixtures", {}).get(fixture_id, {})
+        digest = entry.get("sha256") if isinstance(entry, dict) else None
+    except (OSError, ValueError, TypeError):
+        return None
+    return digest if isinstance(digest, str) else None
+
+
+def _evaluation_snapshot_matches(fixture: Path, fixture_id: str) -> bool:
+    """Evaluation labels are only trustworthy for the frozen fixture or its canonical path."""
+    try:
+        if fixture.resolve() == (REPO / "fixtures" / fixture_id).resolve():
+            return True
+    except OSError:
+        pass
+    frozen = _frozen_fixture_hash(fixture_id)
+    if frozen is None or not fixture.is_dir():
+        return False
+    try:
+        return snapshot_hash(fixture) == frozen
+    except OSError:
+        return False
+
+
+def cmd_analyze(args) -> int:
+    store = _store(args)
+    run_id = args.run_id or "R-CLI"
+    if store.run_dir(run_id).exists():
+        store.delete_run(run_id)
+    store.create_run(run_id, project_id=args.project, snapshot_id=f"S-{run_id}",
+                     fixture_id=args.fixture)
+    fixture = Path(args.fixture_path) if args.fixture_path else REPO / "fixtures" / args.fixture
+    reference = REPO / "ground_truth" / "reference_target" / "pa_veh_01_reference.json"
+    if args.fixture in {"demo-slice-300", "acme-pc-2026.10"} and not _evaluation_snapshot_matches(
+        fixture, args.fixture
+    ):
+        print(
+            f"warning: refusing to evaluate {fixture}: it is neither the canonical "
+            f"fixtures/{args.fixture} snapshot nor a copy matching ground_truth/FROZEN.json; "
+            "no metrics will be written",
+            file=sys.stderr,
+        )
+        reference = None
+    result = execute_run(fixture, store, run_id, project_id=args.project,
+                         fixture_id=args.fixture, tier=args.tier,
+                         reference_path=reference)
+    print(f"{run_id}: {len(result.discovery.features)} features, "
+          f"{len(result.review.findings)} findings")
+    return 0
+
+
+def cmd_verify_audit(args) -> int:
+    store = _store(args)
+    run_id = args.run_id
+    if not run_id:
+        runs = store.list_runs()
+        if not runs:
+            print("no runs found")
+            return 1
+        run_id = runs[-1]
+    try:
+        store.read_status(run_id)
+    except Exception:
+        print(f"run not found: {run_id}")
+        return 1
+    ok = store.verify_audit(run_id)
+    events = store.read_audit(run_id)
+    print(f"{run_id}: {'OK' if ok else 'TAMPERED'} ({len(events)} events, head {events[-1]['hash'][:16] if events else 'GENESIS'})")
+    return 0 if ok else 1
+
+
+def cmd_verify_packet(args) -> int:
+    store = _store(args)
+    run_id = args.run_id
+    try:
+        store.read_status(run_id)
+    except Exception:
+        print(f"run not found: {run_id}")
+        return 1
+    ok, reason = verify_packet_artifacts(store, run_id, include_content=True)
+    detail = reason or "packet hash, content digests, and audit chain verified"
+    print(f"{run_id}: {'OK' if ok else 'TAMPERED'} - {detail}")
+    return 0 if ok else 1
+
+
+def cmd_migrate(args) -> int:
+    store = _store(args)
+    try:
+        state = run_migration(
+            store, args.run_id, feature_id=args.feature, pace=0.0,
+            live=getattr(args, "live", False), model=getattr(args, "model", None),
+        )
+    except Exception as exc:
+        print(f"migration failed: {type(exc).__name__}: {exc}")
+        return 1
+    print(
+        f"{args.run_id}: {state['status']} · {state['summary'].get('generated', 0)}/"
+        f"{state['summary'].get('packages', 0)} targets · {state['summary'].get('gates', 0)} gates · "
+        f"verification {state['verification']['status']} · reasoning {state.get('llm', {}).get('status', 'off')}"
+    )
+    print(f"plan: {state['plan_path']} · report: {state['report_path']} · bundle: {state['bundle']['path']}")
+    return 0
+
+
+def cmd_verify_migration(args) -> int:
+    store = _store(args)
+    try:
+        store.read_status(args.run_id)
+    except Exception:
+        print(f"run not found: {args.run_id}")
+        return 1
+    if not store.exists(args.run_id, MIGRATION_ARTIFACT):
+        print(f"{args.run_id}: no migration artifact")
+        return 1
+    ok, detail = verify_migration_log(store, args.run_id)
+    print(f"{args.run_id}: {'OK' if ok else 'TAMPERED'} - {detail}")
+    return 0 if ok else 1
+
+
+def cmd_llm_check(args) -> int:
+    config = LLMConfig.from_env()
+    public = config.public()
+    print(f"mode: {public['mode']} · configured: {public['configured']} · host: {public['base_host'] or '—'}")
+    if not config.configured:
+        print(public["reason"])
+        return 1
+    try:
+        result = chat_json(
+            [{"role": "user", "content": 'Return JSON only: {"ok": true}'}],
+            config=config, model=getattr(args, "model", None), max_tokens=30,
+        )
+    except Exception as exc:
+        print(f"live check failed: {type(exc).__name__}: {exc}")
+        return 1
+    print(f"OK · model {result['model']} · {result['latency_ms']} ms · usage {result['usage'].get('total_tokens', 0)} tokens")
+    return 0
+
+
+def cmd_claims_lint(args) -> int:
+    from scripts.claims_lint import main as lint_main
+
+    return lint_main()
+
+
+def cmd_codebase(args) -> int:
+    settings = Settings(
+        data_dir=Path(args.data),
+        fixtures_dir=Path(args.fixtures) if args.fixtures else Settings().fixtures_dir,
+    )
+    result = run_code_migration(
+        args.case, settings, max_iterations=args.iterations,
+        upgrade_scenario=args.upgrade,
+        live=getattr(args, "live", False), model=getattr(args, "model", None),
+    )
+    out = Path(args.out) if args.out else REPO / "codebase" / args.case
+    out.mkdir(parents=True, exist_ok=True)
+    for item in result.get("target_files", []):
+        target = out / "target" / item["path"]
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(item["content"], encoding="utf-8")
+    for patch in result.get("patches", []):
+        (out / "patches").mkdir(exist_ok=True)
+        (out / "patches" / f"{patch['patch_id']}.diff").write_text(
+            patch["diff"], encoding="utf-8"
+        )
+    (out / "results.sarif").write_text(
+        sarif_json(result["sarif"]["json"]), encoding="utf-8"
+    )
+    (out / "MIGRATION-REPORT.md").write_text(
+        result["planner"]["report_markdown"], encoding="utf-8"
+    )
+    manifest = {
+        "schema_version": "1.0",
+        "case_id": args.case,
+        "status": result.get("status"),
+        "green_signal": result.get("green_signal"),
+        "boundary": result.get("boundary"),
+        "patches": [
+            {"patch_id": patch["patch_id"], "target_path": patch["target_path"],
+             "rule_ids": patch["rule_ids"], "approval": patch["approval"]}
+            for patch in result.get("patches", [])
+        ],
+        "audit_verified": result.get("audit_verified"),
+    }
+    (out / "bundle-manifest.json").write_text(
+        json.dumps(manifest, indent=2) + "\n", encoding="utf-8"
+    )
+    print(
+        f"{args.case}: {result.get('status')} · "
+        f"{len(result.get('findings', []))} findings · "
+        f"{len(result.get('patches', []))} patches · "
+        f"green={bool(result.get('green_signal', {}).get('unified'))}"
+    )
+    print(f"bundle: {out} · sarif: {out / 'results.sarif'}")
+    return 0 if result.get("green_signal", {}).get("unified") else 1
+
+
+def cmd_manifest(args) -> int:
+    manifest = build_manifest(Path(args.fixture_path), snapshot_id="S-CLI", project_id="cli")
+    print(f"{manifest.file_count} files, {manifest.total_size} bytes, hash {manifest.sha256}")
+    print(f"{len(manifest.unsupported_paths)} unsupported/corrupt files")
+    return 0
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(prog="preflight", description="Offline cloud-readiness review")
+    parser.add_argument("--data", default=str(Settings().data_dir), help="run-store directory")
+    sub = parser.add_subparsers(dest="command", required=True)
+
+    serve = sub.add_parser("serve", help="run the local product server")
+    serve.add_argument("--host", default="127.0.0.1")
+    serve.add_argument("--port", type=int, default=8000)
+    serve.set_defaults(func=cmd_serve)
+
+    seed = sub.add_parser("seed", help="seed the demo run")
+    seed.set_defaults(func=cmd_seed)
+
+    analyze = sub.add_parser("analyze", help="analyze a fixture")
+    analyze.add_argument("--fixture", default="demo-slice-300")
+    analyze.add_argument("--fixture-path", default=None)
+    analyze.add_argument("--project", default="demo")
+    analyze.add_argument("--run-id", default="R-CLI")
+    analyze.add_argument("--tier", default="demo")
+    analyze.set_defaults(func=cmd_analyze)
+
+    verify = sub.add_parser("verify-audit", help="verify the hash-chained review log")
+    verify.add_argument("run_id", nargs="?")
+    verify.set_defaults(func=cmd_verify_audit)
+
+    packet = sub.add_parser("verify-packet", help="verify the review packet hashes and content binding")
+    packet.add_argument("run_id")
+    packet.set_defaults(func=cmd_verify_packet)
+
+    migrate = sub.add_parser("migrate", help="run the autonomous multi-agent migrator")
+    migrate.add_argument("run_id")
+    migrate.add_argument("--feature", default=None)
+    migrate.add_argument("--live", action="store_true", help="use the configured live reasoning endpoint")
+    migrate.add_argument("--model", default=None, choices=["mimo-v2.6-flash", "mimo-v2.6-pro"])
+    migrate.set_defaults(func=cmd_migrate)
+
+    verify_migration = sub.add_parser("verify-migration", help="verify the migrator agent log")
+    verify_migration.add_argument("run_id")
+    verify_migration.set_defaults(func=cmd_verify_migration)
+
+    llm_check = sub.add_parser("llm-check", help="check the optional live reasoning endpoint")
+    llm_check.add_argument("--model", default=None, choices=["mimo-v2.6-flash", "mimo-v2.6-pro"])
+    llm_check.set_defaults(func=cmd_llm_check)
+
+    lint = sub.add_parser("claims-lint", help="lint the claims ledger and rule coverage")
+    lint.set_defaults(func=cmd_claims_lint)
+
+    codebase = sub.add_parser("codebase", help="run the five-agent code-migration lab")
+    codebase.add_argument("case", nargs="?", default="cascade-mutual",
+                          choices=["cascade-mutual", "harbor-pc"])
+    codebase.add_argument("--out", default=None)
+    codebase.add_argument("--fixtures", default=None)
+    codebase.add_argument("--iterations", type=int, default=3)
+    codebase.add_argument("--upgrade", default=None, choices=sorted(SCENARIOS))
+    codebase.add_argument("--live", action="store_true", help="use the configured live reasoning endpoint")
+    codebase.add_argument("--model", default=None, choices=["mimo-v2.6-flash", "mimo-v2.6-pro"])
+    codebase.set_defaults(func=cmd_codebase)
+
+    manifest = sub.add_parser("manifest", help="print a snapshot manifest summary")
+    manifest.add_argument("fixture_path")
+    manifest.set_defaults(func=cmd_manifest)
+
+    args = parser.parse_args(argv)
+    return args.func(args)
+
+
+if __name__ == "__main__":
+    sys.exit(main())
